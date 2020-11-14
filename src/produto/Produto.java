@@ -14,7 +14,6 @@ public class Produto {
         this.avisoEstoqueBaixo = 0;
     }
 
-
     public Produto(String nome, String codigo, int quantidade) {
         this.nome = nome;
         this.codigo = codigo;
@@ -28,7 +27,6 @@ public class Produto {
         this.quantidade = quantidade;
         this.avisoEstoqueBaixo = avisoEstoqueBaixo;
     }
-
 
     public String getNome() {
         return this.nome;
@@ -62,8 +60,10 @@ public class Produto {
         this.avisoEstoqueBaixo = avisoEstoqueBaixo;
     }
 
+    @Override
+    public String toString() {
+        return "Nome: " + getNome() + "\n Código: " + getCodigo() + "\nQuantidade: " + getQuantidade()
+                + "\nAviso de estoque baixo configurado para :" + getAvisoEstoqueBaixo();
+    }
 
-
-
-    
 }
