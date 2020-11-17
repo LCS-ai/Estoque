@@ -28,9 +28,8 @@ public class Lista {
     public boolean verificaExistenciaMesmoCodigo(String codigo) {
         if (listaDeProdutos.size() > 0) {
             for (int i = 0; i < listaDeProdutos.size(); i++) {
-                if (listaDeProdutos.get(i).getCodigo() == codigo) {
-                    return true;
-                }
+                if (listaDeProdutos.get(i).getCodigo().equals(codigo))
+                    return true;    
             }
         }
         return false;
@@ -41,7 +40,12 @@ public class Lista {
         for (int i = 0; i < listaDeProdutos.size(); i++) {
             if (verificaExistenciaMesmoCodigo(codigo) == false) {
                 int opcao = inInt(
-                        "\n=========| Digite a opção de cadastro |=========\n[1] Nome, Código, Quantidade, Aviso estoque baixo\n[2] Nome, Código, Quantidade\n[3] Nome, Código\n[4] Cancelar cadastro\n================================================");
+                        "\n=========| Digite a opção de cadastro |=========\n"+
+                        "[1] Nome, Código, Quantidade, Aviso estoque baixo\n"+
+                        "[2] Nome, Código, Quantidade\n"+
+                        "[3] Nome, Código\n"+
+                        "[4] Cancelar cadastro\n"+
+                        "================================================");
                 switch (opcao) {
                     case 1:
                         String nome = inString("Digite o nome do produto: ");

@@ -5,27 +5,27 @@ public class Produto {
     private String nome;
     private String codigo;
     private int quantidade;
-    private int avisoEstoqueBaixo;
+    private int estoqueMinimo;
 
     public Produto(String nome, String codigo) {
         this.nome = nome;
         this.codigo = codigo;
         this.quantidade = 0;
-        this.avisoEstoqueBaixo = 0;
+        this.estoqueMinimo = 0;
     }
 
     public Produto(String nome, String codigo, int quantidade) {
         this.nome = nome;
         this.codigo = codigo;
         this.quantidade = quantidade;
-        this.avisoEstoqueBaixo = 0;
+        this.estoqueMinimo = 0;
     }
 
-    public Produto(String nome, String codigo, int quantidade, int avisoEstoqueBaixo) {
+    public Produto(String nome, String codigo, int quantidade, int estoqueMinimo) {
         this.nome = nome;
         this.codigo = codigo;
         this.quantidade = quantidade;
-        this.avisoEstoqueBaixo = avisoEstoqueBaixo;
+        this.estoqueMinimo = estoqueMinimo;
     }
 
     public String getNome() {
@@ -52,18 +52,18 @@ public class Produto {
         this.quantidade = quantidade;
     }
 
-    public int getAvisoEstoqueBaixo() {
-        return this.avisoEstoqueBaixo;
+    public int getEstoqueMinimo() {
+        return estoqueMinimo;
     }
 
-    public void setAvisoEstoqueBaixo(int avisoEstoqueBaixo) {
-        this.avisoEstoqueBaixo = avisoEstoqueBaixo;
+    public void setEstoqueMinimo(int estoqueMinimo) {
+        this.estoqueMinimo = estoqueMinimo;
     }
 
     @Override
     public String toString() {
         return "Nome: " + getNome() + "\n Código: " + getCodigo() + "\nQuantidade: " + getQuantidade()
-                + "\nAviso de estoque baixo configurado para :" + getAvisoEstoqueBaixo();
+                + "\nAviso de estoque minimo configurado para :" + getEstoqueMinimo();
     }
 
 }
