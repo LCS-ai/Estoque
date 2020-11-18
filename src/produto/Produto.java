@@ -62,8 +62,8 @@ public class Produto {
 
     @Override
     public String toString() {
-        return "Nome: " + getNome() + "\n Código: " + getCodigo() + "\nQuantidade: " + getQuantidade()
-                + "\nAviso de estoque minimo configurado para :" + getEstoqueMinimo();
+        return "\tNome: " + this.getNome() + "\n\tCódigo: " + this.getCodigo() + "\n\tQuantidade: " + this.getQuantidade()
+                + "\n\tEstoque minimo: " + this.getEstoqueMinimo();
     }
 
 }
