@@ -4,27 +4,27 @@ public class Produto {
 
     private String nome;
     private String codigo;
-    private int quantidade;
+    private int estoque;
     private int estoqueMinimo;
 
     public Produto(String nome, String codigo) {
         this.nome = nome;
         this.codigo = codigo;
-        this.quantidade = 0;
+        this.estoque = 0;
         this.estoqueMinimo = 0;
     }
 
     public Produto(String nome, String codigo, int quantidade) {
         this.nome = nome;
         this.codigo = codigo;
-        this.quantidade = quantidade;
+        this.estoque = quantidade;
         this.estoqueMinimo = 0;
     }
 
-    public Produto(String nome, String codigo, int quantidade, int estoqueMinimo) {
+    public Produto(String nome, String codigo, int estoque, int estoqueMinimo) {
         this.nome = nome;
         this.codigo = codigo;
-        this.quantidade = quantidade;
+        this.estoque = estoque;
         this.estoqueMinimo = estoqueMinimo;
     }
 
@@ -44,12 +44,12 @@ public class Produto {
         this.codigo = codigo;
     }
 
-    public int getQuantidade() {
-        return this.quantidade;
+    public int getEstoque() {
+        return this.estoque;
     }
 
-    public void setQuantidade(int quantidade) {
-        this.quantidade = quantidade;
+    public void setEstoque(int estoque) {
+        this.estoque = estoque;
     }
 
     public int getEstoqueMinimo() {
@@ -62,7 +62,7 @@ public class Produto {
 
     @Override
     public String toString() {
-        return "\tNome: " + this.getNome() + "\n\tCódigo: " + this.getCodigo() + "\n\tQuantidade: " + this.getQuantidade()
+        return "\tNome: " + this.getNome() + "\n\tCódigo: " + this.getCodigo() + "\n\tQuantidade: " + this.getEstoque()
                 + "\n\tEstoque minimo: " + this.getEstoqueMinimo();
     }
 
