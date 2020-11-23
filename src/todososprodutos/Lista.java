@@ -23,23 +23,27 @@ public class Lista {
 
     public Produto getProduto() {
         return this.produto;
-    }
+    }  
 
-    public boolean verificaExistenciaMesmoCodigo(String codigo) {
+    public Produto buscaProduto(String buscaProduto) {
+        
+        produto = null;
         if (listaDeProdutos.size() > 0) {
             for (int i = 0; i < listaDeProdutos.size(); i++) {
-                if (listaDeProdutos.get(i).getCodigo() == codigo) {
-                    return true;
-                }
+                if (listaDeProdutos.get(i).getCodigo().equals(buscaProduto) || listaDeProdutos.get(i).getNome().equals(buscaProduto)) {
+                    return produto = listaDeProdutos.get(i);
+                }                
             }
         }
-        return false;
+        return produto;        
     }
 
     public void adicionaProdutoNaLista() {
-        String codigo = inString("Digite o código do produto: ");
+        String codigo = inString("Digite o código do produto: "); 
+        
+
         for (int i = 0; i < listaDeProdutos.size(); i++) {
-            if (verificaExistenciaMesmoCodigo(codigo) == false) {
+            if (!listaDeProdutos.get(i).getCodigo().equals(codigo)) {
                 int opcao = inInt(
                         "\n=========| Digite a opção de cadastro |=========\n[1] Nome, Código, Quantidade, Aviso estoque baixo\n[2] Nome, Código, Quantidade\n[3] Nome, Código\n[4] Cancelar cadastro\n================================================");
                 switch (opcao) {
@@ -68,11 +72,18 @@ public class Lista {
                     default:
                         break;
                 }
+            }
 
-            } else {
+            else {
                 System.out.println("Produto com o código: " + codigo + " já existe!");
             }
         }
+    }
+
+    public void excluirProduto(){
+        String buscaProduto = inString("Digite o nome ou código do produto: ");
+        listaDeProdutos.remove(buscaProduto(buscaProduto));
+
     }
 
     public static String inString(String entrada) {
