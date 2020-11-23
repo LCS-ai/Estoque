@@ -1,11 +1,12 @@
 package userinterface;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-import todososprodutos.*;
 import produto.*;
+import util.*;
 
 public class UI {
     private Lista lista;
@@ -18,14 +19,15 @@ public class UI {
         listaResultadoDaPesquisa = new ArrayList<>();
     }
 
-    public void menu() {
+    public void menu() throws IOException, InterruptedException {
         boolean start = true;
         do {
+            LimpaConsole.main(new String [10]);
             int opcao = inInt(
-                    "\n=========| Digite a opção desejada |=========\n\n"+
-                    "[1] Visualizar estoque\n"+
-                    "[2] Pesquisar produto\n"+
-                    "[3] Adicionar produto\n"+
+                "\n=========| Digite a opção desejada |=========\n\n"+
+                "[1] Visualizar estoque\n"+
+                "[2] Pesquisar produto\n"+
+                "[3] Adicionar produto\n"+
                     "[4] Editar produto\n"+
                     "[5] Apagar produto\n"+
                     "[6] Sair\n"+
@@ -33,25 +35,30 @@ public class UI {
             switch (opcao) {
                 case 1:
                     mostraEstoque();
+                    scan.hasNext();
                     break;
                 case 2:
                     mostraProdutosParaAPesquisa();
+                    scan.hasNext();
                     break;
                 case 3:
                     adicionaProdutoNaLista();
+                    scan.hasNext();
                     break;
                 case 4:
                     editarProduto();
+                    scan.next();
                     break;
-                case 5:
+                    case 5:
                     excluirProduto();
+                    scan.next();
                     break;
-                case 6:
+                    case 6:
                     start = false;
                     break;
                 default:
                     break;
-            }
+                }
         } while(start);
     }
 
@@ -94,7 +101,7 @@ public class UI {
                 
                 case 4:
                     System.out.println("Cadastro negado pelo usuário!");
-                break;
+                    break;
                 
                 default:
                     break;
@@ -102,58 +109,75 @@ public class UI {
         }
     }
     
-    //TODO adicionar verificacao para o caso da lista de produtos para a pesquisa ser maior que 0.
     private void editarProduto() {
-        if (lista.getListaDeProdutos().isEmpty()) 
-            System.out.println("\n\n\tAinda não há produtos cadastrados!\n");
+        if (!verificaListaVazia(lista.getListaDeProdutos())) {
+            menuDeEdicao();
+        }
+    }
+
+    private void menuDeEdicao() {
+        String pesquisa = inString("Digite o nome ou código do produto que deseja editar: ");
+        mostraProdutosParaAPesquisa(pesquisa);
+        if(numeroDeResultados != 1) {
+            System.out.println("\n\n\tExiste mais de um produto com '"+pesquisa+"'\n"+
+                "\tPor favor, busque pelo código do produto!");
+                menuDeEdicao();
+        }
+        
+        int indice = lista.pesquisaProduto(pesquisa);
+        Produto produtoAntigo;
+        if(indice < 0)
+            System.out.println("\n\n\tNão foram encontrados resultados para '"+pesquisa+"'!");
         else {
-            String pesquisa = inString("Digite sua pesquisa: ");
-            int indice = lista.pesquisaProduto(pesquisa);
-            Produto produtoAntigo;
-            if(indice < 0)
-                System.out.println("\n\n\tNão foram encontrados resultados para '"+pesquisa+"'!");
-            else {
-                produtoAntigo = lista.getListaDeProdutos().get(indice);
-                System.out.println("\n"+produtoAntigo);
-                boolean mostrarTela = true;
-                do {
-                    int opcao = inInt(
-                        "\n==========| Digite a opção de edicão |==========\n\n"+
-                        "[1] Nome\n"+
-                        "[2] Código\n"+
-                        "[3] Estoque\n"+
-                        "[4] Estoque mínimo\n"+
-                        "[5] Voltar\n"+
-                        "\n================================================");
-                    switch (opcao) {
-                        case 1:
-                            String nome = inString("Digite o novo nome para o produto: ");
-                            lista.getListaDeProdutos().get(indice).setNome(nome);
-                            break;
-                        case 2:
-                            String codigo = inString("Digite o novo codigo para o produto: ");
-                            lista.getListaDeProdutos().get(indice).setCodigo(codigo);
-                            break;
-                        case 3:
-                            int estoque = inInt("Digite o estoque do produto: ");
-                            lista.getListaDeProdutos().get(indice).setEstoque(estoque);
-                            break;
-                        case 4:
-                            int estoqueMinimo = inInt("Digite o novo valor de estoque mínimo do produto: ");
-                            lista.getListaDeProdutos().get(indice).setEstoqueMinimo(estoqueMinimo);
-                            break;
-                        case 5:
-                            mostrarTela = false;
-                            break;
-                        default:
-                            break;
-                    }
-                } while(mostrarTela);
-                if(confereSucessoNaEdicao(produtoAntigo, lista.getListaDeProdutos().get(indice))) {
-                    System.out.println("\n\n\tEdição efetuada com sucesso!\n");
+            produtoAntigo = lista.getListaDeProdutos().get(indice);
+            System.out.println("\n"+produtoAntigo);
+            boolean mostrarTela = true;
+            do {
+                int opcao = inInt(
+                    "\n==========| Digite a opção de edicão |==========\n\n"+
+                    "[1] Nome\n"+
+                    "[2] Código\n"+
+                    "[3] Estoque\n"+
+                    "[4] Estoque mínimo\n"+
+                    "[5] Voltar\n"+
+                    "\n================================================");
+                switch (opcao) {
+                    case 1:
+                        String nome = inString("Digite o novo nome para o produto: ");
+                        lista.getListaDeProdutos().get(indice).setNome(nome);
+                        break;
+                    case 2:
+                        String codigo = inString("Digite o novo codigo para o produto: ");
+                        lista.getListaDeProdutos().get(indice).setCodigo(codigo);
+                        break;
+                    case 3:
+                        int estoque = inInt("Digite o estoque do produto: ");
+                        lista.getListaDeProdutos().get(indice).setEstoque(estoque);
+                        break;
+                    case 4:
+                        int estoqueMinimo = inInt("Digite o novo valor de estoque mínimo do produto: ");
+                        lista.getListaDeProdutos().get(indice).setEstoqueMinimo(estoqueMinimo);
+                        break;
+                    case 5:
+                        mostrarTela = false;
+                        break;
+                    default:
+                        break;
                 }
+            } while(mostrarTela);
+            
+            if(confereSucessoNaEdicao(produtoAntigo, lista.getListaDeProdutos().get(indice))) {
+                System.out.println("\n\n\tEdição efetuada com sucesso!\n");
             }
         }
+    }
+
+    private boolean verificaListaVazia(List<Produto> p) {
+        if(p.isEmpty()) {
+            System.out.println("\n\n\tAinda não há produtos cadastrados!\n");
+            return true;
+        }
+        return false;
     }
 
     private boolean confereSucessoNaEdicao(Produto produtoAntigo, Produto p) {
@@ -183,7 +207,7 @@ public class UI {
         }
     }
     
-    public void pesquisaNaLista(String pesquisa) {
+    private void pesquisaNaLista(String pesquisa) {
         listaResultadoDaPesquisa.clear();
         numeroDeResultados = 0;
         for (Produto p : lista.getListaDeProdutos()) {

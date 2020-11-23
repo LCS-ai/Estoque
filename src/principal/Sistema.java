@@ -1,12 +1,18 @@
 package principal;
 
-import todososprodutos.*;
-import userinterface.*;
+import java.io.IOException;
+import userinterface.UI;
 
 public class Sistema {
     public static void main(String[] args) {
         UI tela = new UI();
-        tela.menu();
+        try {
+            tela.menu();
+        } catch (IOException e) {
+            e.getMessage();
+        } catch (InterruptedException e) {
+            e.getMessage();
+        }
         System.exit(0);
     }
 }
