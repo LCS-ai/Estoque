@@ -28,10 +28,10 @@ public class UI {
                 "[1] Visualizar estoque\n"+
                 "[2] Pesquisar produto\n"+
                 "[3] Adicionar produto\n"+
-                    "[4] Editar produto\n"+
-                    "[5] Apagar produto\n"+
-                    "[6] Sair\n"+
-                    "\n=============================================");
+                "[4] Editar produto\n"+
+                "[5] Apagar produto\n"+
+                "[6] Sair\n"+
+                "\n=============================================");
             switch (opcao) {
                 case 1:
                     mostraEstoque();
@@ -172,6 +172,7 @@ public class UI {
         }
     }
 
+    // TODO teste
     private boolean verificaListaVazia(List<Produto> p) {
         if(p.isEmpty()) {
             System.out.println("\n\n\tAinda não há produtos cadastrados!\n");
@@ -180,6 +181,7 @@ public class UI {
         return false;
     }
 
+    // TODO teste
     private boolean confereSucessoNaEdicao(Produto produtoAntigo, Produto p) {
         return !produtoAntigo.getNome().equals(p.getNome()) || 
         !produtoAntigo.getCodigo().equals(p.getCodigo()) ||
@@ -268,19 +270,35 @@ public class UI {
     }
     
 
-    
+    // TODO teste
     public static String inString(String entrada) {
         System.out.println(entrada);
         scan = new Scanner(System.in);
         return scan.nextLine();
     }
 
+    // TODO teste
+    public static String inString(String entrada, String fimDeLinha) {
+        System.out.print(entrada + fimDeLinha);
+        scan = new Scanner(System.in);
+        return scan.nextLine();
+    }
+
+    // TODO teste
     public static int inInt(String entrada) {
         System.out.println(entrada);
         scan = new Scanner(System.in);
         return scan.nextInt();
     }
 
+    // TODO teste
+    public static int inInt(String entrada, String fimDeLinha) {
+        System.out.println(entrada + fimDeLinha);
+        scan = new Scanner(System.in);
+        return scan.nextInt();
+    }
+
+    // TODO teste
     public String imprimeLinha(int tamanho) {
         String linha = "";
         for (int i = 0; i < tamanho; i++) {
