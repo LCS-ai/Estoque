@@ -14,10 +14,10 @@ public class Produto {
         this.estoqueMinimo = 0;
     }
 
-    public Produto(String nome, String codigo, int quantidade) {
+    public Produto(String nome, String codigo, int estoque) {
         this.nome = nome;
         this.codigo = codigo;
-        this.estoque = quantidade;
+        this.estoque = estoque;
         this.estoqueMinimo = 0;
     }
 
