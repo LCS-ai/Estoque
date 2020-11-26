@@ -4,8 +4,7 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertTrue;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.*;
 
 import produto.Produto;
 
@@ -20,7 +19,7 @@ public class ProdutoTest {
     }
 
     @Test
-    public void constroiNomeCodigo() {
+    public void constroiNomeCodigoTest() {
         assertFalse(p1.getNome().isEmpty());
         assertFalse(p1.getCodigo().isEmpty());
         assertTrue(p1.getEstoque() == 0);
@@ -28,7 +27,7 @@ public class ProdutoTest {
     }
 
     @Test
-    public void constroiNomeCodigoEstoque() {
+    public void constroiNomeCodigoEstoqueTest() {
         assertFalse(p2.getNome().isEmpty());
         assertFalse(p2.getCodigo().isEmpty());
         assertTrue(p2.getEstoque() > 0);
@@ -36,7 +35,7 @@ public class ProdutoTest {
     }
 
     @Test
-    public void constroiNomeCodigoEstoqueEstoqueMinimo() {
+    public void constroiNomeCodigoEstoqueEstoqueMinimoTest() {
         assertFalse(p3.getNome().isEmpty());
         assertFalse(p3.getCodigo().isEmpty());
         assertTrue(p3.getEstoque() > 0);

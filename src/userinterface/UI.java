@@ -8,13 +8,13 @@ import java.util.Scanner;
 import produto.*;
 import util.*;
 
-public class UI {
+public class Ui {
     private Lista lista;
     private static Scanner scan;
     private List<Produto> listaResultadoDaPesquisa;
     private int numeroDeResultados;
 
-    public UI() {
+    public Ui() {
         lista = new Lista();
         listaResultadoDaPesquisa = new ArrayList<>();
     }
@@ -43,7 +43,6 @@ public class UI {
                     break;
                 case 3:
                     adicionaProdutoNaLista();
-                    scan.hasNext();
                     break;
                 case 4:
                     editarProduto();
@@ -58,7 +57,7 @@ public class UI {
                     break;
                 default:
                     break;
-                }
+            }
         } while(start);
     }
 
@@ -82,21 +81,21 @@ public class UI {
                     "\n================================================");
             switch (opcao) {
                 case 1:
-                    nome = inString("Digite o nome do produto: ");
-                    quantidade = inInt("Digite a quantia em estoque: ");
-                    int estoqueMinimo = inInt("Digite o estoque mínimo para o produto: ");
-                    lista.getListaDeProdutos().add(new Produto(nome, codigo, quantidade, estoqueMinimo));
+                    nome = inString("Digite o nome do produto: ", "");
+                    quantidade = inInt("Digite a quantia em estoque: ", "");
+                    int estoqueMinimo = inInt("Digite o estoque mínimo para o produto: ", "");
+                    lista.adicionaProduto(new Produto(nome, codigo, quantidade, estoqueMinimo));
                     break;
                     
                 case 2:
-                    nome = inString("Digite o nome do produto: ");
-                    quantidade = inInt("Digite a quantia em estoque: ");
-                    lista.getListaDeProdutos().add(new Produto(nome, codigo, quantidade));
+                    nome = inString("Digite o nome do produto: ", "");
+                    quantidade = inInt("Digite a quantia em estoque: ", "");
+                    lista.adicionaProduto(new Produto(nome, codigo, quantidade));
                     break;
                     
                 case 3:
-                    nome = inString("Digite o nome do produto: ");
-                    lista.getListaDeProdutos().add(new Produto(nome, codigo));
+                    nome = inString("Digite o nome do produto: ", "");
+                    lista.adicionaProduto(new Produto(nome, codigo));
                     break;
                 
                 case 4:
@@ -172,8 +171,15 @@ public class UI {
         }
     }
 
-    // TODO teste
-    private boolean verificaListaVazia(List<Produto> p) {
+    /**
+     * Metodo que recebe uma lista, 
+     * verifica se ela esta vazia atraves da funcao isEmpty()
+     * da API Java e retorna o valor booleano da conferencia.
+     * Ainda retorna para o usuario um feedback caso a lista esteja vazia.
+     * @param p
+     * @return
+     */
+    public boolean verificaListaVazia(List<Produto> p) {
         if(p.isEmpty()) {
             System.out.println("\n\n\tAinda não há produtos cadastrados!\n");
             return true;
@@ -181,8 +187,16 @@ public class UI {
         return false;
     }
 
-    // TODO teste
-    private boolean confereSucessoNaEdicao(Produto produtoAntigo, Produto p) {
+    /**
+     * Metodo recebe dois produtos respectivos
+     * ao produto antes de ser editado e apos a edicao. 
+     * Ele confere cada atributo do produtos 
+     * buscando por alteracoes e retorna o valor booleano das comparacoes.
+     * @param produtoAntigo : Produto
+     * @param p : Produto
+     * @return : boolean
+     */
+    public boolean confereSucessoNaEdicao(Produto produtoAntigo, Produto p) {
         return !produtoAntigo.getNome().equals(p.getNome()) || 
         !produtoAntigo.getCodigo().equals(p.getCodigo()) ||
         produtoAntigo.getEstoque() != p.getEstoque() ||
@@ -234,7 +248,7 @@ public class UI {
             for (Produto p : listaResultadoDaPesquisa) {
                 System.out.println(p+"\n");
             }
-            System.out.println("\n\t"+imprimeLinha(mensagem.length()));
+            System.out.println("\n\t"+retornaLinha(mensagem.length()));
         }
     }
 
@@ -250,7 +264,7 @@ public class UI {
             for (Produto p : listaResultadoDaPesquisa) {
                 System.out.println(p+"\n");
             }
-            System.out.println("\n\t"+imprimeLinha(mensagem.length()));
+            System.out.println("\n\t"+retornaLinha(mensagem.length()));
         }
     }
 
@@ -270,36 +284,36 @@ public class UI {
     }
     
 
-    // TODO teste
+    
     public static String inString(String entrada) {
         System.out.println(entrada);
         scan = new Scanner(System.in);
         return scan.nextLine();
     }
 
-    // TODO teste
+    
     public static String inString(String entrada, String fimDeLinha) {
         System.out.print(entrada + fimDeLinha);
         scan = new Scanner(System.in);
         return scan.nextLine();
     }
 
-    // TODO teste
+    
     public static int inInt(String entrada) {
         System.out.println(entrada);
         scan = new Scanner(System.in);
         return scan.nextInt();
     }
 
-    // TODO teste
+    
     public static int inInt(String entrada, String fimDeLinha) {
         System.out.println(entrada + fimDeLinha);
         scan = new Scanner(System.in);
         return scan.nextInt();
     }
 
-    // TODO teste
-    public String imprimeLinha(int tamanho) {
+    
+    public String retornaLinha(int tamanho) {
         String linha = "";
         for (int i = 0; i < tamanho; i++) {
             linha += "=";

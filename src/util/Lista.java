@@ -28,6 +28,10 @@ public class Lista {
         return listaDeProdutos;
     }
 
+    public void adicionaProduto(Produto p) {
+        this.listaDeProdutos.add(p);
+    }
+
     /**
      * Metodo que recebe uma String de pesquisa e procura na lista de produtos.
      * Ao encontrar retorna o indice do produto na tabela.
@@ -58,6 +62,6 @@ public class Lista {
         return false;
     }
 
-     
+    
 
 }
