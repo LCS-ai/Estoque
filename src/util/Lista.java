@@ -21,15 +21,12 @@ public class Lista {
         return listaDeProdutos;
     }
 
-    /*
-     * TODO Cuidado neste método, se retornar o estoque mais alto, seleciono último
-     * index com listaDeProdutos.get(listaDeProdutos.size( )-1)
-     */
     public Produto produtoComEstoqueMaisBaixo() {
         if (!listaDeProdutos.isEmpty()) {
-            ComparadorDeEstoque ordemEstoqueMaisBaixo = new ComparadorDeEstoque();
-            Collections.sort(listaDeProdutos, ordemEstoqueMaisBaixo);
-            return listaDeProdutos.get(0);
+            ComparadorDeEstoque ordem = new ComparadorDeEstoque();
+            Collections.sort(listaDeProdutos, ordem);
+            return listaDeProdutos.get(listaDeProdutos.size()-1);
+        
         } else {
             return null;
         }

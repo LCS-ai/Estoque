@@ -20,6 +20,12 @@ public class Ui {
     }
 
     public void menu() throws IOException, InterruptedException {
+        if (lista.tamanhoDalistaDeProdutos() > 0) {
+            System.out.println("=============================================\nProduto com estoque mais baixo: "
+                    + lista.produtoComEstoqueMaisBaixo().getNome() + "\nCódigo: "
+                    + lista.produtoComEstoqueMaisBaixo().getCodigo() + "\nEstoque: "
+                    + lista.produtoComEstoqueMaisBaixo().getEstoque());
+        }
         boolean start = true;
         do {
             LimpaConsole.main(new String[10]);
@@ -111,7 +117,7 @@ public class Ui {
             System.out.println("Produto não encontrado.");
         }
     }
-    
+
     private void adicionaProdutoNaLista() {
         String nome;
         String codigo;
@@ -124,23 +130,22 @@ public class Ui {
         if (lista.verificaExistenciaDoProdutoDuasPalavras(nome, codigo))
             System.out.println("\n\n\tProduto " + nome + " com o código " + codigo + " já existe!");
         else {
-            int opcao = inInt("\n=========| Digite a opção de cadastro para "+nome+" |=========\n\n"
-                    + "[1] Estoque, Estoque mínimo\n" + "[2] Estoque\n"
-                    + "[3] Finalizar cadastro\n" + "[4] Cancelar cadastro\n"
-                    + "\n================================================");
+            int opcao = inInt("\n=========| Digite a opção de cadastro para " + nome + " |=========\n\n"
+                    + "[1] Estoque, Estoque mínimo\n" + "[2] Estoque\n" + "[3] Finalizar cadastro\n"
+                    + "[4] Cancelar cadastro\n" + "\n================================================");
             switch (opcao) {
-                case 1:                    
+                case 1:
                     quantidade = inInt("Digite a quantia em estoque: ", "");
                     estoqueMinimo = inInt("Digite o estoque mínimo para o produto: ", "");
                     lista.adicionaProduto(new Produto(nome, codigo, quantidade, estoqueMinimo));
                     break;
 
-                case 2:                    
+                case 2:
                     quantidade = inInt("Digite a quantia em estoque: ", "");
                     lista.adicionaProduto(new Produto(nome, codigo, quantidade));
                     break;
 
-                case 3:                    
+                case 3:
                     lista.adicionaProduto(new Produto(nome, codigo));
                     break;
 
