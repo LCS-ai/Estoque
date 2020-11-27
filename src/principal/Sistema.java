@@ -8,10 +8,9 @@ public class Sistema {
         Ui tela = new Ui();
         try {
             tela.menu();
-        } catch (IOException e) {
+        } catch (IOException | InterruptedException e) {
             e.getMessage();
-        } catch (InterruptedException e) {
-            e.getMessage();
+            Thread.currentThread().interrupt();
         }
         System.exit(0);
     }

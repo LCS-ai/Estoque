@@ -34,25 +34,35 @@ public class Ui {
                 "\n=============================================");
             switch (opcao) {
                 case 1:
+                    LimpaConsole.main(new String [10]);
                     mostraEstoque();
-                    scan.hasNext();
+                    if (scanDeParada())
+                        break;
                     break;
                 case 2:
+                    LimpaConsole.main(new String [10]);
                     mostraProdutosParaAPesquisa();
-                    scan.hasNext();
+                    if (scanDeParada())
+                        break;
                     break;
                 case 3:
+                    LimpaConsole.main(new String [10]);
                     adicionaProdutoNaLista();
                     break;
                 case 4:
+                    LimpaConsole.main(new String [10]);
                     editarProduto();
-                    scan.next();
+                    if (scanDeParada())
+                        break;
                     break;
-                    case 5:
+                case 5:
+                    LimpaConsole.main(new String [10]);
                     excluirProduto();
-                    scan.next();
+                    if (scanDeParada())
+                        break;
                     break;
-                    case 6:
+                case 6:
+                    LimpaConsole.main(new String [10]);
                     start = false;
                     break;
                 default:
@@ -68,7 +78,7 @@ public class Ui {
     private void adicionaProdutoNaLista() {
         String nome;
         int quantidade;
-        String codigo = inString("Digite o código do produto: ");
+        String codigo = inString("Digite o código do produto: ", "");
         if (lista.verificaExistenciaMesmoCodigo(codigo))
                 System.out.println("\n\n\tProduto com o código " + codigo + " já existe!");
         else {
@@ -99,7 +109,9 @@ public class Ui {
                     break;
                 
                 case 4:
-                    System.out.println("Cadastro negado pelo usuário!");
+                    System.out.println("\n\n\tCadastro negado pelo usuário!\n\n");
+                    if (scanDeParada())
+                        break;
                     break;
                 
                 default:
@@ -116,18 +128,21 @@ public class Ui {
 
     private void menuDeEdicao() {
         String pesquisa = inString("Digite o nome ou código do produto que deseja editar: ");
-        mostraProdutosParaAPesquisa(pesquisa);
-        if(numeroDeResultados != 1) {
+        int indice = lista.pesquisaProduto(pesquisa);
+        pesquisaNaLista(pesquisa);
+        if(numeroDeResultados > 1) {
+            mostraProdutosParaAPesquisa(pesquisa);
             System.out.println("\n\n\tExiste mais de um produto com '"+pesquisa+"'\n"+
                 "\tPor favor, busque pelo código do produto!");
                 menuDeEdicao();
         }
-        
-        int indice = lista.pesquisaProduto(pesquisa);
         Produto produtoAntigo;
-        if(indice < 0)
-            System.out.println("\n\n\tNão foram encontrados resultados para '"+pesquisa+"'!");
-        else {
+        if(indice < 0) {
+            String mensagem = "Não foram encontrados resultados para '"+pesquisa+"'";
+            System.out.println("\n\t"+retornaLinha(mensagem.length()+16)+"\n");
+            System.out.println("\n\t\t"+mensagem+"\n");
+            System.out.println("\n\t"+retornaLinha(mensagem.length()+16)+"\n");
+        } else {
             produtoAntigo = lista.getListaDeProdutos().get(indice);
             System.out.println("\n"+produtoAntigo);
             boolean mostrarTela = true;
@@ -142,19 +157,19 @@ public class Ui {
                     "\n================================================");
                 switch (opcao) {
                     case 1:
-                        String nome = inString("Digite o novo nome para o produto: ");
+                        String nome = inString("Digite o novo nome para o produto: ", "");
                         lista.getListaDeProdutos().get(indice).setNome(nome);
                         break;
                     case 2:
-                        String codigo = inString("Digite o novo codigo para o produto: ");
+                        String codigo = inString("Digite o novo codigo para o produto: ", "");
                         lista.getListaDeProdutos().get(indice).setCodigo(codigo);
                         break;
                     case 3:
-                        int estoque = inInt("Digite o estoque do produto: ");
+                        int estoque = inInt("Digite o estoque do produto: ", "");
                         lista.getListaDeProdutos().get(indice).setEstoque(estoque);
                         break;
                     case 4:
-                        int estoqueMinimo = inInt("Digite o novo valor de estoque mínimo do produto: ");
+                        int estoqueMinimo = inInt("Digite o novo valor de estoque mínimo do produto: ", "");
                         lista.getListaDeProdutos().get(indice).setEstoqueMinimo(estoqueMinimo);
                         break;
                     case 5:
@@ -163,10 +178,12 @@ public class Ui {
                     default:
                         break;
                 }
+            
             } while(mostrarTela);
             
             if(confereSucessoNaEdicao(produtoAntigo, lista.getListaDeProdutos().get(indice))) {
                 System.out.println("\n\n\tEdição efetuada com sucesso!\n");
+                scanDeParada();
             }
         }
     }
@@ -239,11 +256,15 @@ public class Ui {
         if (lista.getListaDeProdutos().isEmpty()) 
             System.out.println("\n\n\tAinda não há produtos cadastrados!\n");
         else {
-            String pesquisa = inString("Digite a chave para pesquisar na lista: ");
+            String pesquisa = inString("Digite a chave para pesquisar na lista: ", "");
             pesquisaNaLista(pesquisa);
-            String mensagem = "=========| Exibindo "+numeroDeResultados+" "+
+            String mensagem = (numeroDeResultados < 1) ? 
+                    "Não foram encontrados resultados para '"+pesquisa+"'" :
+                    "=========| Exibindo "+numeroDeResultados+" "+
                     ((numeroDeResultados < 2) ? "resultado" : "resultados")+
                     " para '"+pesquisa+"'|=========";
+            if(numeroDeResultados < 1)
+                System.out.println("\n\t"+retornaLinha(mensagem.length())+"\n");
             System.out.println("\n\n\t"+mensagem+"\n\n");
             for (Produto p : listaResultadoDaPesquisa) {
                 System.out.println(p+"\n");
@@ -257,9 +278,13 @@ public class Ui {
             System.out.println("\n\n\tAinda não há produtos cadastrados!\n");
         else {
             pesquisaNaLista(pesquisa);
-            String mensagem = "=========| Exibindo "+numeroDeResultados+" "+
+            String mensagem = (numeroDeResultados < 1) ? 
+                    "Não foram encontrados resultados para '"+pesquisa+"'" :
+                    "=========| Exibindo "+numeroDeResultados+" "+
                     ((numeroDeResultados < 2) ? "resultado" : "resultados")+
                     " para '"+pesquisa+"'|=========";
+            if(numeroDeResultados < 1)
+                System.out.println("\n\t"+retornaLinha(mensagem.length())+"\n");
             System.out.println("\n\n\t"+mensagem+"\n\n");
             for (Produto p : listaResultadoDaPesquisa) {
                 System.out.println(p+"\n");
@@ -273,17 +298,26 @@ public class Ui {
         if (lista.getListaDeProdutos().isEmpty())
             System.out.println("\n\n\tAinda não há produtos cadastrados!\n");
         else { 
-            System.out.println("\n\n\t=========| Estoque de produtos: |=========\n\n");
+            String mensagem = "=================| Estoque de produtos: |=================";
+            System.out.println("\n\n\t"+mensagem+"\n\n");
             for (Produto p : lista.getListaDeProdutos()) {
-                System.out.println(posicao +"\n"+p+"\n");
+                System.out.println(posicao +" ------\n"+p+"\n");
                 posicao++;
             }
-            System.out.println("\t\t\t\t\tTotal de produtos em estoque: "+lista.getListaDeProdutos().size());
-            System.out.println("\n\t============================================");
+            System.out.println("\t\t\t\tTotal de produtos em estoque: "+lista.getListaDeProdutos().size());
+            System.out.println("\n\t"+retornaLinha(mensagem.length())+"\n");
         }
     }
     
-
+    public boolean scanDeParada() {
+        String entrada = inString();
+        return (entrada.equals("") || entrada.isBlank());
+    }
+    
+    public static String inString() {
+        scan = new Scanner(System.in);
+        return scan.nextLine();
+    }
     
     public static String inString(String entrada) {
         System.out.println(entrada);
@@ -305,19 +339,19 @@ public class Ui {
         return scan.nextInt();
     }
 
-    
+      
     public static int inInt(String entrada, String fimDeLinha) {
-        System.out.println(entrada + fimDeLinha);
+        System.out.print(entrada + fimDeLinha);
         scan = new Scanner(System.in);
         return scan.nextInt();
     }
 
     
     public String retornaLinha(int tamanho) {
-        String linha = "";
+        StringBuilder linha = new StringBuilder();
         for (int i = 0; i < tamanho; i++) {
-            linha += "=";
+            linha.append("=");
         }
-        return linha;
+        return linha.toString();
     }
 }

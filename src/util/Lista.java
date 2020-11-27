@@ -10,7 +10,6 @@ public class Lista {
     private List<Produto> listaDeProdutos;
     private List<Produto> listaDeProdutosVendidos;
 
-
     public Lista() {
         listaDeProdutos = new ArrayList<>();
         listaDeProdutosVendidos = new ArrayList<>();
@@ -37,7 +36,7 @@ public class Lista {
      * Ao encontrar retorna o indice do produto na tabela.
      * Caso nao encontre, retorna -1.
      * @param pesquisa : String
-     * @return : int
+     * @return indice : int
      */
     public int pesquisaProduto(String pesquisa) {
         int indice = -1;
