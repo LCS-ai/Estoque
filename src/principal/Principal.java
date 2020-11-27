@@ -3,7 +3,7 @@ package principal;
 import java.io.IOException;
 import userinterface.Ui;
 
-public class Sistema {
+public class Principal {
     public static void main(String[] args) {
         Ui tela = new Ui();
         try {

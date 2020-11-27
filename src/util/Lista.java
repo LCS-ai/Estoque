@@ -6,7 +6,7 @@ import java.util.List;
 import produto.*;
 
 public class Lista {
-    private Produto produto; // não entendi a função disso
+    
     private List<Produto> listaDeProdutos;
     private List<Produto> listaDeProdutosVendidos;
 

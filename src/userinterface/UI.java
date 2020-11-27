@@ -59,23 +59,31 @@ public class Ui {
                     LimpaConsole.main(new String[10]);
                     start = false;
                     break;
+
                 case 7:
-                    LimpaConsole.main(new String[10]);
+
                     /*
                      * TODO Refactorar para imprime relatório
                      */
                     String path = "C:\\temp\\relatorio.txt";
                     try (BufferedWriter bw = new BufferedWriter(new FileWriter(path))) {
-                        System.out.println("------------ LISTA DE PRODUTOS ------------");
-                        for (int i = 0; i < lista.tamanhoDalistaDeProdutos(); i++) {
-                            bw.write(lista.retornaProduto(i).toString());
+                        if (lista.tamanhoDalistaDeProdutos() > 0) {
+                            bw.write("------------ LISTA DE PRODUTOS ------------");
                             bw.newLine();
+                            for (int i = 0; i < lista.tamanhoDalistaDeProdutos(); i++) {
+                                bw.write(lista.retornaProduto(i).toString());
+                                bw.newLine();
+                            }
                         }
-                        System.out.println("----------- PRODUTOS VENDIDOS ------------");
-                        for (int j = 0; j < lista.tamanhoDalistaDeProdutos(); j++) {
-                            bw.write(lista.retornaProdutoVendido(j).toString());
-                            bw.newLine();
+                        if (lista.tamanhoDalistaDeProdutosVendidos() > 0) {
+                            bw.write("----------- PRODUTOS VENDIDOS ------------");
+                         
+
+                                bw.write(lista.retornaProdutoVendido(j).toString());
+                                bw.ne
+                            }
                         }
+                        
 
                     } catch (IOException e) {
                         e.printStackTrace();
