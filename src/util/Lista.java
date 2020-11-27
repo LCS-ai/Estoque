@@ -4,39 +4,30 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import comparadores.ComparadorDeEstoque;
+import comparadores.ComparadorPorEstoque;
 import produto.*;
 
 public class Lista {
 
     private List<Produto> listaDeProdutos;
     private List<Produto> listaDeProdutosVendidos;
+    private List<Produto> listaDeEstoqueBaixo;
 
     public Lista() {
         listaDeProdutos = new ArrayList<>();
         listaDeProdutosVendidos = new ArrayList<>();
+        listaDeEstoqueBaixo = new ArrayList<>();
     }
 
     public List<Produto> getListaDeProdutos() {
         return listaDeProdutos;
     }
 
-    public Produto produtoComEstoqueMaisBaixo() {
-        if (!listaDeProdutos.isEmpty()) {
-            ComparadorDeEstoque ordem = new ComparadorDeEstoque();
-            Collections.sort(listaDeProdutos, ordem);
-            return listaDeProdutos.get(listaDeProdutos.size()-1);
-        
-        } else {
-            return null;
-        }
-
-    }
-
+    
     public int tamanhoDalistaDeProdutos() {
         return listaDeProdutos.size();
     }
-
+    
     public int tamanhoDalistaDeProdutosVendidos() {
         return listaDeProdutosVendidos.size();
     }
@@ -44,13 +35,17 @@ public class Lista {
     public void adicionaProduto(Produto p) {
         this.listaDeProdutos.add(p);
     }
-
+    
     public Produto retornaProduto(int i) {
         return listaDeProdutos.get(i);
     }
-
+    
     public Produto retornaProdutoVendido(int i) {
         return listaDeProdutosVendidos.get(i);
+    }
+
+    public List<Produto> getListaDeEstoqueBaixo() {
+        return listaDeEstoqueBaixo;
     }
 
     /**
@@ -87,13 +82,13 @@ public class Lista {
         if (!listaDeProdutos.isEmpty()) {
             for (int i = 0; i < listaDeProdutos.size(); i++) {
                 if (listaDeProdutos.get(i).getCodigo().equals(palavra)
-                        || listaDeProdutos.get(i).getNome().equals(palavra))
+                || listaDeProdutos.get(i).getNome().equals(palavra))
                     return true;
+                }
             }
-        }
         return false;
     }
-
+    
     public boolean verificaExistenciaDoProdutoDuasPalavras(String nome, String codigo) {
         if (!listaDeProdutos.isEmpty()) {
             for (int i = 0; i < listaDeProdutos.size(); i++) {
@@ -102,6 +97,25 @@ public class Lista {
             }
         }
         return false;
+    }
+
+    public void atualizaProdutosComEstoqueBaixo() {
+        for (Produto produto : listaDeProdutos) {
+            if((produto.getEstoque()-produto.getEstoqueMinimo()) < 0) {
+                listaDeEstoqueBaixo.add(produto);
+            }
+        }
+    }
+
+    public Produto produtoComEstoqueMaisBaixo() {
+        if (!listaDeProdutos.isEmpty()) {
+            ComparadorPorEstoque ordem = new ComparadorPorEstoque();
+            Collections.sort(listaDeProdutos, ordem);
+            return listaDeProdutos.get(listaDeProdutos.size()-1);
+        
+        } else {
+            return null;
+        }
     }
 
 }
