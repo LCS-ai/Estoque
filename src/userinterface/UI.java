@@ -31,7 +31,8 @@ public class Ui {
             LimpaConsole.main(new String[10]);
             int opcao = inInt("\n=========| Digite a opção desejada |=========\n\n" + "[1] Visualizar estoque\n"
                     + "[2] Pesquisar produto\n" + "[3] Adicionar produto\n" + "[4] Editar produto\n"
-                    + "[5] Apagar produto\n" + "[6] Sair\n" + "\n=============================================");
+                    + "[5] Apagar produto\n" + "[6] Atualiza estoque\n" + "[7] Imprime Relatório(.txt)\n" + "[8] Sair\n"
+                    + "\n=============================================");
             switch (opcao) {
                 case 1:
                     LimpaConsole.main(new String[10]);
@@ -55,25 +56,27 @@ public class Ui {
                     if (scanDeParada())
                         break;
                     break;
+
                 case 5:
                     LimpaConsole.main(new String[10]);
                     excluirProduto();
                     if (scanDeParada())
                         break;
                     break;
-                case 6:
-                    LimpaConsole.main(new String[10]);
-                    start = false;
-                    break;
 
-                case 7:
+                case 6:
                     LimpaConsole.main(new String[10]);
                     atualizaEstoque();
                     break;
 
-                case 8:
+                case 7:
                     LimpaConsole.main(new String[10]);
                     imprimeRelatorioEmTxt();
+                    break;
+
+                case 8:
+                    LimpaConsole.main(new String[10]);
+                    start = false;
                     break;
 
                 default:
