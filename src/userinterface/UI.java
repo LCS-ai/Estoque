@@ -1,65 +1,91 @@
 package userinterface;
 
+import java.io.BufferedWriter;
+import java.io.FileWriter;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
 import produto.*;
 import util.*;
 
-public class UI {
+public class Ui {
     private Lista lista;
     private static Scanner scan;
     private List<Produto> listaResultadoDaPesquisa;
     private int numeroDeResultados;
 
-    public UI() {
+    public Ui() {
         lista = new Lista();
-        listaResultadoDaPesquisa = new ArrayList<>();
     }
 
     public void menu() throws IOException, InterruptedException {
         boolean start = true;
         do {
-            LimpaConsole.main(new String [10]);
-            int opcao = inInt(
-                "\n=========| Digite a opção desejada |=========\n\n"+
-                "[1] Visualizar estoque\n"+
-                "[2] Pesquisar produto\n"+
-                "[3] Adicionar produto\n"+
-                "[4] Editar produto\n"+
-                "[5] Apagar produto\n"+
-                "[6] Sair\n"+
-                "\n=============================================");
+            LimpaConsole.main(new String[10]);
+            int opcao = inInt("\n=========| Digite a opção desejada |=========\n\n" + "[1] Visualizar estoque\n"
+                    + "[2] Pesquisar produto\n" + "[3] Adicionar produto\n" + "[4] Editar produto\n"
+                    + "[5] Apagar produto\n" + "[6] Sair\n" + "\n=============================================");
             switch (opcao) {
                 case 1:
+                    LimpaConsole.main(new String[10]);
                     mostraEstoque();
-                    scan.hasNext();
+                    if (scanDeParada())
+                        break;
                     break;
                 case 2:
+                    LimpaConsole.main(new String[10]);
                     mostraProdutosParaAPesquisa();
-                    scan.hasNext();
+                    if (scanDeParada())
+                        break;
                     break;
                 case 3:
+                    LimpaConsole.main(new String[10]);
                     adicionaProdutoNaLista();
-                    scan.hasNext();
                     break;
                 case 4:
+                    LimpaConsole.main(new String[10]);
                     editarProduto();
-                    scan.next();
+                    if (scanDeParada())
+                        break;
                     break;
-                    case 5:
+                case 5:
+                    LimpaConsole.main(new String[10]);
                     excluirProduto();
-                    scan.next();
+                    if (scanDeParada())
+                        break;
                     break;
-                    case 6:
+                case 6:
+                    LimpaConsole.main(new String[10]);
                     start = false;
                     break;
+                case 7:
+                    LimpaConsole.main(new String[10]);
+                    /*
+                     * TODO Refactorar para imprime relatório
+                     */
+                    String path = "C:\\temp\\relatorio.txt";
+                    try (BufferedWriter bw = new BufferedWriter(new FileWriter(path))) {
+                        System.out.println("------------ LISTA DE PRODUTOS ------------");
+                        for (int i = 0; i < lista.tamanhoDalistaDeProdutos(); i++) {
+                            bw.write(lista.retornaProduto(i).toString());
+                            bw.newLine();
+                        }
+                        System.out.println("----------- PRODUTOS VENDIDOS ------------");
+                        for (int j = 0; j < lista.tamanhoDalistaDeProdutos(); j++) {
+                            bw.write(lista.retornaProdutoVendido(j).toString());
+                            bw.newLine();
+                        }
+
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    break;
+
                 default:
                     break;
-                }
-        } while(start);
+            }
+        } while (start);
     }
 
     /*
@@ -69,46 +95,45 @@ public class UI {
     private void adicionaProdutoNaLista() {
         String nome;
         int quantidade;
-        String codigo = inString("Digite o código do produto: ");
+        String codigo = inString("Digite o código do produto: ", "");
         if (lista.verificaExistenciaMesmoCodigo(codigo))
-                System.out.println("\n\n\tProduto com o código " + codigo + " já existe!");
+            System.out.println("\n\n\tProduto com o código " + codigo + " já existe!");
         else {
-            int opcao = inInt(
-                    "\n=========| Digite a opção de cadastro |=========\n\n"+
-                    "[1] Nome, Código, Estoque, Estoque mínimo\n"+
-                    "[2] Nome, Código, Estoque\n"+
-                    "[3] Nome, Código\n"+
-                    "[4] Cancelar cadastro\n"+
-                    "\n================================================");
+            int opcao = inInt("\n=========| Digite a opção de cadastro |=========\n\n"
+                    + "[1] Nome, Código, Estoque, Estoque mínimo\n" + "[2] Nome, Código, Estoque\n"
+                    + "[3] Nome, Código\n" + "[4] Cancelar cadastro\n"
+                    + "\n================================================");
             switch (opcao) {
                 case 1:
-                    nome = inString("Digite o nome do produto: ");
-                    quantidade = inInt("Digite a quantia em estoque: ");
-                    int estoqueMinimo = inInt("Digite o estoque mínimo para o produto: ");
-                    lista.getListaDeProdutos().add(new Produto(nome, codigo, quantidade, estoqueMinimo));
+                    nome = inString("Digite o nome do produto: ", "");
+                    quantidade = inInt("Digite a quantia em estoque: ", "");
+                    int estoqueMinimo = inInt("Digite o estoque mínimo para o produto: ", "");
+                    lista.adicionaProduto(new Produto(nome, codigo, quantidade, estoqueMinimo));
                     break;
-                    
+
                 case 2:
-                    nome = inString("Digite o nome do produto: ");
-                    quantidade = inInt("Digite a quantia em estoque: ");
-                    lista.getListaDeProdutos().add(new Produto(nome, codigo, quantidade));
+                    nome = inString("Digite o nome do produto: ", "");
+                    quantidade = inInt("Digite a quantia em estoque: ", "");
+                    lista.adicionaProduto(new Produto(nome, codigo, quantidade));
                     break;
-                    
+
                 case 3:
-                    nome = inString("Digite o nome do produto: ");
-                    lista.getListaDeProdutos().add(new Produto(nome, codigo));
+                    nome = inString("Digite o nome do produto: ", "");
+                    lista.adicionaProduto(new Produto(nome, codigo));
                     break;
-                
+
                 case 4:
-                    System.out.println("Cadastro negado pelo usuário!");
+                    System.out.println("\n\n\tCadastro negado pelo usuário!\n\n");
+                    if (scanDeParada())
+                        break;
                     break;
-                
+
                 default:
                     break;
             }
         }
     }
-    
+
     private void editarProduto() {
         if (!verificaListaVazia(lista.getListaDeProdutos())) {
             menuDeEdicao();
@@ -117,45 +142,43 @@ public class UI {
 
     private void menuDeEdicao() {
         String pesquisa = inString("Digite o nome ou código do produto que deseja editar: ");
-        mostraProdutosParaAPesquisa(pesquisa);
-        if(numeroDeResultados != 1) {
-            System.out.println("\n\n\tExiste mais de um produto com '"+pesquisa+"'\n"+
-                "\tPor favor, busque pelo código do produto!");
-                menuDeEdicao();
-        }
-        
         int indice = lista.pesquisaProduto(pesquisa);
+        pesquisaNaLista(pesquisa);
+        if (numeroDeResultados > 1) {
+            mostraProdutosParaAPesquisa(pesquisa);
+            System.out.println("\n\n\tExiste mais de um produto com '" + pesquisa + "'\n"
+                    + "\tPor favor, busque pelo código do produto!");
+            menuDeEdicao();
+        }
         Produto produtoAntigo;
-        if(indice < 0)
-            System.out.println("\n\n\tNão foram encontrados resultados para '"+pesquisa+"'!");
-        else {
+        if (indice < 0) {
+            String mensagem = "Não foram encontrados resultados para '" + pesquisa + "'";
+            System.out.println("\n\t" + retornaLinha(mensagem.length() + 16) + "\n");
+            System.out.println("\n\t\t" + mensagem + "\n");
+            System.out.println("\n\t" + retornaLinha(mensagem.length() + 16) + "\n");
+        } else {
             produtoAntigo = lista.getListaDeProdutos().get(indice);
-            System.out.println("\n"+produtoAntigo);
+            System.out.println("\n" + produtoAntigo);
             boolean mostrarTela = true;
             do {
-                int opcao = inInt(
-                    "\n==========| Digite a opção de edicão |==========\n\n"+
-                    "[1] Nome\n"+
-                    "[2] Código\n"+
-                    "[3] Estoque\n"+
-                    "[4] Estoque mínimo\n"+
-                    "[5] Voltar\n"+
-                    "\n================================================");
+                int opcao = inInt("\n==========| Digite a opção de edicão |==========\n\n" + "[1] Nome\n"
+                        + "[2] Código\n" + "[3] Estoque\n" + "[4] Estoque mínimo\n" + "[5] Voltar\n"
+                        + "\n================================================");
                 switch (opcao) {
                     case 1:
-                        String nome = inString("Digite o novo nome para o produto: ");
+                        String nome = inString("Digite o novo nome para o produto: ", "");
                         lista.getListaDeProdutos().get(indice).setNome(nome);
                         break;
                     case 2:
-                        String codigo = inString("Digite o novo codigo para o produto: ");
+                        String codigo = inString("Digite o novo codigo para o produto: ", "");
                         lista.getListaDeProdutos().get(indice).setCodigo(codigo);
                         break;
                     case 3:
-                        int estoque = inInt("Digite o estoque do produto: ");
+                        int estoque = inInt("Digite o estoque do produto: ", "");
                         lista.getListaDeProdutos().get(indice).setEstoque(estoque);
                         break;
                     case 4:
-                        int estoqueMinimo = inInt("Digite o novo valor de estoque mínimo do produto: ");
+                        int estoqueMinimo = inInt("Digite o novo valor de estoque mínimo do produto: ", "");
                         lista.getListaDeProdutos().get(indice).setEstoqueMinimo(estoqueMinimo);
                         break;
                     case 5:
@@ -164,57 +187,72 @@ public class UI {
                     default:
                         break;
                 }
-            } while(mostrarTela);
-            
-            if(confereSucessoNaEdicao(produtoAntigo, lista.getListaDeProdutos().get(indice))) {
+
+            } while (mostrarTela);
+
+            if (confereSucessoNaEdicao(produtoAntigo, lista.getListaDeProdutos().get(indice))) {
                 System.out.println("\n\n\tEdição efetuada com sucesso!\n");
+                scanDeParada();
             }
         }
     }
 
-    // TODO teste
-    private boolean verificaListaVazia(List<Produto> p) {
-        if(p.isEmpty()) {
+    /**
+     * Metodo que recebe uma lista, verifica se ela esta vazia atraves da funcao
+     * isEmpty() da API Java e retorna o valor booleano da conferencia. Ainda
+     * retorna para o usuario um feedback caso a lista esteja vazia.
+     * 
+     * @param p
+     * @return
+     */
+    public boolean verificaListaVazia(List<Produto> p) {
+        if (p.isEmpty()) {
             System.out.println("\n\n\tAinda não há produtos cadastrados!\n");
             return true;
         }
         return false;
     }
 
-    // TODO teste
-    private boolean confereSucessoNaEdicao(Produto produtoAntigo, Produto p) {
-        return !produtoAntigo.getNome().equals(p.getNome()) || 
-        !produtoAntigo.getCodigo().equals(p.getCodigo()) ||
-        produtoAntigo.getEstoque() != p.getEstoque() ||
-        produtoAntigo.getEstoqueMinimo() != p.getEstoqueMinimo();
+    /**
+     * Metodo recebe dois produtos respectivos ao produto antes de ser editado e
+     * apos a edicao. Ele confere cada atributo do produtos buscando por alteracoes
+     * e retorna o valor booleano das comparacoes.
+     * 
+     * @param produtoAntigo : Produto
+     * @param p             : Produto
+     * @return : boolean
+     */
+    public boolean confereSucessoNaEdicao(Produto produtoAntigo, Produto p) {
+        return !produtoAntigo.getNome().equals(p.getNome()) || !produtoAntigo.getCodigo().equals(p.getCodigo())
+                || produtoAntigo.getEstoque() != p.getEstoque()
+                || produtoAntigo.getEstoqueMinimo() != p.getEstoqueMinimo();
     }
 
     private void excluirProduto() {
         Produto p = null;
-        if (lista.getListaDeProdutos().isEmpty()) 
+        if (lista.getListaDeProdutos().isEmpty())
             System.out.println("\n\n\tAinda não há produtos cadastrados!\n");
         else {
             String pesquisa = inString("Digite o nome ou código do produto que deseja excluir: ");
             mostraProdutosParaAPesquisa(pesquisa);
-            if(numeroDeResultados != 1) {
-                System.out.println("\n\n\tExite mais de um produto com '"+pesquisa+"'\n"+
-                    "\tPor favor, busque pelo código do produto!");
-                    excluirProduto();
+            if (numeroDeResultados != 1) {
+                System.out.println("\n\n\tExite mais de um produto com '" + pesquisa + "'\n"
+                        + "\tPor favor, busque pelo código do produto!");
+                excluirProduto();
             }
             p = listaResultadoDaPesquisa.get(0);
             lista.getListaDeProdutos().remove(p);
         }
-        if(!lista.getListaDeProdutos().contains(p)) {
-            System.out.println("\n\n\tProduto "+p.getNome()+" excluido com sucesso!\n");
+        if (!lista.getListaDeProdutos().contains(p)) {
+            System.out.println("\n\n\tProduto " + p.getNome() + " excluido com sucesso!\n");
         }
     }
-    
+
     private void pesquisaNaLista(String pesquisa) {
         listaResultadoDaPesquisa.clear();
         numeroDeResultados = 0;
         for (Produto p : lista.getListaDeProdutos()) {
-            if(p.getNome().toLowerCase().contains(pesquisa.toLowerCase()) || 
-                    p.getCodigo().contains(pesquisa))  {
+            if (p.getNome().toLowerCase().contains(pesquisa.toLowerCase()) || p.getCodigo().contains(pesquisa)) {
                 listaResultadoDaPesquisa.add(p);
                 numeroDeResultados++;
             }
@@ -222,35 +260,41 @@ public class UI {
     }
 
     private void mostraProdutosParaAPesquisa() {
-        if (lista.getListaDeProdutos().isEmpty()) 
+        if (lista.getListaDeProdutos().isEmpty())
             System.out.println("\n\n\tAinda não há produtos cadastrados!\n");
         else {
-            String pesquisa = inString("Digite a chave para pesquisar na lista: ");
+            String pesquisa = inString("Digite a chave para pesquisar na lista: ", "");
             pesquisaNaLista(pesquisa);
-            String mensagem = "=========| Exibindo "+numeroDeResultados+" "+
-                    ((numeroDeResultados < 2) ? "resultado" : "resultados")+
-                    " para '"+pesquisa+"'|=========";
-            System.out.println("\n\n\t"+mensagem+"\n\n");
+            String mensagem = (numeroDeResultados < 1) ? "Não foram encontrados resultados para '" + pesquisa + "'"
+                    : "=========| Exibindo " + numeroDeResultados + " "
+                            + ((numeroDeResultados < 2) ? "resultado" : "resultados") + " para '" + pesquisa
+                            + "'|=========";
+            if (numeroDeResultados < 1)
+                System.out.println("\n\t" + retornaLinha(mensagem.length()) + "\n");
+            System.out.println("\n\n\t" + mensagem + "\n\n");
             for (Produto p : listaResultadoDaPesquisa) {
-                System.out.println(p+"\n");
+                System.out.println(p + "\n");
             }
-            System.out.println("\n\t"+imprimeLinha(mensagem.length()));
+            System.out.println("\n\t" + retornaLinha(mensagem.length()));
         }
     }
 
     private void mostraProdutosParaAPesquisa(String pesquisa) {
-        if (lista.getListaDeProdutos().isEmpty()) 
+        if (lista.getListaDeProdutos().isEmpty())
             System.out.println("\n\n\tAinda não há produtos cadastrados!\n");
         else {
             pesquisaNaLista(pesquisa);
-            String mensagem = "=========| Exibindo "+numeroDeResultados+" "+
-                    ((numeroDeResultados < 2) ? "resultado" : "resultados")+
-                    " para '"+pesquisa+"'|=========";
-            System.out.println("\n\n\t"+mensagem+"\n\n");
+            String mensagem = (numeroDeResultados < 1) ? "Não foram encontrados resultados para '" + pesquisa + "'"
+                    : "=========| Exibindo " + numeroDeResultados + " "
+                            + ((numeroDeResultados < 2) ? "resultado" : "resultados") + " para '" + pesquisa
+                            + "'|=========";
+            if (numeroDeResultados < 1)
+                System.out.println("\n\t" + retornaLinha(mensagem.length()) + "\n");
+            System.out.println("\n\n\t" + mensagem + "\n\n");
             for (Produto p : listaResultadoDaPesquisa) {
-                System.out.println(p+"\n");
+                System.out.println(p + "\n");
             }
-            System.out.println("\n\t"+imprimeLinha(mensagem.length()));
+            System.out.println("\n\t" + retornaLinha(mensagem.length()));
         }
     }
 
@@ -258,52 +302,57 @@ public class UI {
         int posicao = 1;
         if (lista.getListaDeProdutos().isEmpty())
             System.out.println("\n\n\tAinda não há produtos cadastrados!\n");
-        else { 
-            System.out.println("\n\n\t=========| Estoque de produtos: |=========\n\n");
+        else {
+            String mensagem = "=================| Estoque de produtos: |=================";
+            System.out.println("\n\n\t" + mensagem + "\n\n");
             for (Produto p : lista.getListaDeProdutos()) {
-                System.out.println(posicao +"\n"+p+"\n");
+                System.out.println(posicao + " ------\n" + p + "\n");
                 posicao++;
             }
-            System.out.println("\t\t\t\t\tTotal de produtos em estoque: "+lista.getListaDeProdutos().size());
-            System.out.println("\n\t============================================");
+            System.out.println("\t\t\t\tTotal de produtos em estoque: " + lista.getListaDeProdutos().size());
+            System.out.println("\n\t" + retornaLinha(mensagem.length()) + "\n");
         }
     }
-    
 
-    // TODO teste
+    public boolean scanDeParada() {
+        String entrada = inString();
+        return (entrada.equals("") || entrada.isBlank());
+    }
+
+    public static String inString() {
+        scan = new Scanner(System.in);
+        return scan.nextLine();
+    }
+
     public static String inString(String entrada) {
         System.out.println(entrada);
         scan = new Scanner(System.in);
         return scan.nextLine();
     }
 
-    // TODO teste
     public static String inString(String entrada, String fimDeLinha) {
         System.out.print(entrada + fimDeLinha);
         scan = new Scanner(System.in);
         return scan.nextLine();
     }
 
-    // TODO teste
     public static int inInt(String entrada) {
         System.out.println(entrada);
         scan = new Scanner(System.in);
         return scan.nextInt();
     }
 
-    // TODO teste
     public static int inInt(String entrada, String fimDeLinha) {
-        System.out.println(entrada + fimDeLinha);
+        System.out.print(entrada + fimDeLinha);
         scan = new Scanner(System.in);
         return scan.nextInt();
     }
 
-    // TODO teste
-    public String imprimeLinha(int tamanho) {
-        String linha = "";
+    public String retornaLinha(int tamanho) {
+        StringBuilder linha = new StringBuilder();
         for (int i = 0; i < tamanho; i++) {
-            linha += "=";
+            linha.append("=");
         }
-        return linha;
+        return linha.toString();
     }
 }

@@ -10,30 +10,44 @@ public class Lista {
     private List<Produto> listaDeProdutos;
     private List<Produto> listaDeProdutosVendidos;
 
-
     public Lista() {
         listaDeProdutos = new ArrayList<>();
         listaDeProdutosVendidos = new ArrayList<>();
     }
 
-    // public Lista(Produto produto) {
-    //     this.produto = produto;
-    // }
-
-    // public Produto getProduto() {
-    //     return this.produto;
-    // }
 
     public List<Produto> getListaDeProdutos() {
         return listaDeProdutos;
     }
+
+    public int tamanhoDalistaDeProdutos(){
+        return listaDeProdutos.size();
+    }
+
+    public int tamanhoDalistaDeProdutosVendidos(){
+        return listaDeProdutosVendidos.size();
+    }
+
+    public void adicionaProduto(Produto p) {
+        this.listaDeProdutos.add(p);
+    }
+
+    public Produto retornaProduto(int i){
+        return listaDeProdutos.get(i);
+    }
+
+    public Produto retornaProdutoVendido(int i){
+        return listaDeProdutosVendidos.get(i);
+    }
+
+    
 
     /**
      * Metodo que recebe uma String de pesquisa e procura na lista de produtos.
      * Ao encontrar retorna o indice do produto na tabela.
      * Caso nao encontre, retorna -1.
      * @param pesquisa : String
-     * @return : int
+     * @return indice : int
      */
     public int pesquisaProduto(String pesquisa) {
         int indice = -1;
@@ -58,6 +72,6 @@ public class Lista {
         return false;
     }
 
-     
+    
 
 }

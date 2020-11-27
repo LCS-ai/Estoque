@@ -14,10 +14,10 @@ public class Produto {
         this.estoqueMinimo = 0;
     }
 
-    public Produto(String nome, String codigo, int quantidade) {
+    public Produto(String nome, String codigo, int estoque) {
         this.nome = nome;
         this.codigo = codigo;
-        this.estoque = quantidade;
+        this.estoque = estoque;
         this.estoqueMinimo = 0;
     }
 
@@ -62,7 +62,7 @@ public class Produto {
 
     @Override
     public String toString() {
-        return "\tNome: " + this.getNome() + "\n\tCódigo: " + this.getCodigo() + "\n\tQuantidade: " + this.getEstoque()
+        return "\tNome: " + this.getNome() + "\n\tCódigo: " + this.getCodigo() + "\n\tEstoque: " + this.getEstoque()
                 + "\n\tEstoque minimo: " + this.getEstoqueMinimo();
     }
 
