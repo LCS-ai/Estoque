@@ -51,6 +51,16 @@ public class Produto {
     public void setEstoque(int estoque) {
         this.estoque = estoque;
     }
+    
+    public boolean liberaVenda(int estoque) {
+
+        if ((getEstoque() - estoque) < 0) {
+            return false;
+        } else {
+            setEstoque(getEstoque() - estoque);
+            return true;
+        }
+    }
 
     public int getEstoqueMinimo() {
         return estoqueMinimo;

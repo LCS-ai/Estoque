@@ -61,33 +61,13 @@ public class Ui {
                     break;
 
                 case 7:
+                    LimpaConsole.main(new String[10]);
+                    atualizaEstoque();
+                    break;
 
-                    /*
-                     * TODO Refactorar para imprime relatório
-                     */
-                    String path = "C:\\temp\\relatorio.txt";
-                    try (BufferedWriter bw = new BufferedWriter(new FileWriter(path))) {
-                        if (lista.tamanhoDalistaDeProdutos() > 0) {
-                            bw.write("------------ LISTA DE PRODUTOS ------------");
-                            bw.newLine();
-                            for (int i = 0; i < lista.tamanhoDalistaDeProdutos(); i++) {
-                                bw.write(lista.retornaProduto(i).toString());
-                                bw.newLine();
-                            }
-                        }
-                        if (lista.tamanhoDalistaDeProdutosVendidos() > 0) {
-                            bw.write("----------- PRODUTOS VENDIDOS ------------");
-                         
-
-                                bw.write(lista.retornaProdutoVendido(j).toString());
-                                bw.ne
-                            }
-                        }
-                        
-
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
+                case 8:
+                    LimpaConsole.main(new String[10]);
+                    imprimeRelatorioEmTxt();
                     break;
 
                 default:
@@ -96,37 +76,71 @@ public class Ui {
         } while (start);
     }
 
-    /*
-     * TODO Modificar a estrutura do metodo para cadastrar o produto aí mostrar o
-     * aviso somente se já houver o produto com o mesmo código.
-     */
+    private void imprimeRelatorioEmTxt() {
+        String path = "C:\\temp\\relatorio.txt";
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter(path))) {
+            if (lista.tamanhoDalistaDeProdutos() > 0) {
+                bw.write("------------ LISTA DE PRODUTOS ------------");
+                bw.newLine();
+                for (int i = 0; i < lista.tamanhoDalistaDeProdutos(); i++) {
+                    bw.write(lista.retornaProduto(i).toString());
+                    bw.newLine();
+                }
+            }
+            if (lista.tamanhoDalistaDeProdutosVendidos() > 0) {
+                bw.write("----------- PRODUTOS VENDIDOS ------------");
+                for (int j = 0; j < lista.tamanhoDalistaDeProdutos(); j++) {
+                    bw.write(lista.retornaProdutoVendido(j).toString());
+                    bw.newLine();
+                }
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void atualizaEstoque() {
+        String buscaPeloProduto = inString("Digite o produto que gostaria de atualizar o estoque: ");
+        if (lista.verificaExistenciaDoProduto(buscaPeloProduto)) {
+            int estoque = inInt("Digite a quantia de produtos que irão sair do estoque.");
+            lista.retornaProduto(lista.pesquisaProduto(buscaPeloProduto)).liberaVenda(estoque);
+        }
+
+        else {
+            System.out.println("Produto não encontrado.");
+        }
+    }
+    
     private void adicionaProdutoNaLista() {
         String nome;
+        String codigo;
         int quantidade;
-        String codigo = inString("Digite o código do produto: ", "");
-        if (lista.verificaExistenciaMesmoCodigo(codigo))
-            System.out.println("\n\n\tProduto com o código " + codigo + " já existe!");
+        int estoqueMinimo;
+
+        nome = inString("Digite o nome do produto: ", "");
+        codigo = inString("Digite o código do produto: ", "");
+
+        if (lista.verificaExistenciaDoProdutoDuasPalavras(nome, codigo))
+            System.out.println("\n\n\tProduto " + nome + " com o código " + codigo + " já existe!");
         else {
-            int opcao = inInt("\n=========| Digite a opção de cadastro |=========\n\n"
-                    + "[1] Nome, Código, Estoque, Estoque mínimo\n" + "[2] Nome, Código, Estoque\n"
-                    + "[3] Nome, Código\n" + "[4] Cancelar cadastro\n"
+            int opcao = inInt("\n=========| Digite a opção de cadastro para "+nome+" |=========\n\n"
+                    + "[1] Estoque, Estoque mínimo\n" + "[2] Estoque\n"
+                    + "[3] Finalizar cadastro\n" + "[4] Cancelar cadastro\n"
                     + "\n================================================");
             switch (opcao) {
-                case 1:
-                    nome = inString("Digite o nome do produto: ", "");
+                case 1:                    
                     quantidade = inInt("Digite a quantia em estoque: ", "");
-                    int estoqueMinimo = inInt("Digite o estoque mínimo para o produto: ", "");
+                    estoqueMinimo = inInt("Digite o estoque mínimo para o produto: ", "");
                     lista.adicionaProduto(new Produto(nome, codigo, quantidade, estoqueMinimo));
                     break;
 
-                case 2:
-                    nome = inString("Digite o nome do produto: ", "");
+                case 2:                    
                     quantidade = inInt("Digite a quantia em estoque: ", "");
                     lista.adicionaProduto(new Produto(nome, codigo, quantidade));
                     break;
 
-                case 3:
-                    nome = inString("Digite o nome do produto: ", "");
+                case 3:                    
                     lista.adicionaProduto(new Produto(nome, codigo));
                     break;
 
