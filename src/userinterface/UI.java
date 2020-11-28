@@ -5,11 +5,10 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.List;
 import java.util.ArrayList;
-import java.util.Collections;
 
 import produto.*;
 import util.*;
-import comparadores.*;
+import comparadores.*; // para usar mais tarde
 
 public class Ui {
     private Lista lista;
@@ -485,7 +484,6 @@ public class Ui {
             System.out.println("\n\n\tNão há produtos com estoque baixo!\n");
         else {
             int posicao = 1;
-            Collections.sort(new ComparadorPorEstoque());
             String mensagem = "=================| Produtos em estoque baixo: |=================";
             System.out.println("\n\n\t" + mensagem + "\n\n");
             for (Produto p : lista.getListaDeEstoqueBaixo()) {
