@@ -4,6 +4,7 @@ import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.List;
+import java.util.ArrayList;
 
 import produto.*;
 import util.*;
@@ -15,8 +16,12 @@ public class Ui {
 
     public Ui() {
         lista = new Lista();
+        this.listaResultadoDaPesquisa = new ArrayList<>();
     }
 
+
+    // TODO exportar as opcões relacionadas ao produto pra um menuProduto
+    // TODO adicionar ao menu o metodo de imprimir produtos com estoque baixo.
     public void menu() throws IOException, InterruptedException {
         boolean start = true;
         do {
@@ -90,9 +95,13 @@ public class Ui {
     public void imprimeAvisoEstoqueBaixo() {
         int tamanhoDaLista = lista.getListaDeEstoqueBaixo().size();
         if (tamanhoDaLista > 0) {
-            String aviso = (tamanhoDaLista > 1) ?
-                    "Existem" : "Existe" + tamanhoDaLista +
-                    "produtos com estoque baixo!";
+            boolean variosProdutos  = tamanhoDaLista > 1;
+            String aviso = "\n\t\tATENÇÃO!!!\n" +
+                    ((variosProdutos) ? "\n\tExistem " : "\n\tExiste ") +
+                    tamanhoDaLista +
+                    ((variosProdutos) ? " produtos" : " produto") +
+                    " com estoque baixo!";
+            System.out.println(retornaLinha(44));
             System.out.println(aviso);
         }
         // if (lista.tamanhoDalistaDeProdutos() > 0) {
@@ -308,7 +317,9 @@ public class Ui {
     }
 
     private void pesquisaNaLista(String pesquisa) {
-        listaResultadoDaPesquisa.clear();
+        if(listaResultadoDaPesquisa != null) {
+            listaResultadoDaPesquisa.clear();
+        }
         numeroDeResultados = 0;
         for (Produto p : lista.getListaDeProdutos()) {
             if (p.getNome().toLowerCase().contains(pesquisa.toLowerCase()) 
@@ -373,6 +384,18 @@ public class Ui {
             System.out.println("\t\t\t\tTotal de produtos em estoque: " + lista.getListaDeProdutos().size());
             System.out.println("\n\t" + retornaLinha(mensagem.length()) + "\n");
         }
+    }
+
+    private void mostraProdutosComEstoqueBaixo() {
+        int posicao = 1;
+        String mensagem = "=================| Produtos em estoque baixo: |=================";
+        System.out.println("\n\n\t" + mensagem + "\n\n");
+        for (Produto p : lista.getListaDeEstoqueBaixo()) {
+            System.out.println(posicao + " ------\n" + p + "\n");
+            posicao++;
+        }
+        System.out.println("\t\t\t\tTotal de produtos em estoque: " + lista.getListaDeEstoqueBaixo().size());
+        System.out.println("\n\t" + retornaLinha(mensagem.length()) + "\n");
     }
 
     public String retornaLinha(int tamanho) {
