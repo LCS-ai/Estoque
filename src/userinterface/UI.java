@@ -29,14 +29,12 @@ public class Ui {
             LimpaConsole.main(new String[10]);
             imprimeAvisoEstoqueBaixo();
             int opcao = Entrada.inInt("\n=========| Digite a opção desejada |=========\n\n" 
-                    + "[1] Visualizar estoque\n"
-                    + "[2] Pesquisar produto\n" 
-                    + "[3] Adicionar produto\n" 
-                    + "[4] Editar produto\n"
-                    + "[5] Apagar produto\n" 
-                    + "[6] Atualiza estoque\n" 
-                    + "[7] Imprimir Relatório(.txt)\n" 
-                    + "[8] Sair\n"
+                    + "[1] Visualizar estoque\n" 
+                    + "[2] Produto\n"
+                    + "[3] Atualiza estoque\n" 
+                    + "[4] Visualizar Produtos com Estoque Baixo\n"
+                    + "[5] Imprimir Relatório(.txt)\n" 
+                    + "[6] Sair\n"
                     + "\n=============================================");
             switch (opcao) {
                 case 1:
@@ -45,43 +43,31 @@ public class Ui {
                     if (Entrada.scanDeParada())
                         break;
                     break;
+
                 case 2:
-                    LimpaConsole.main(new String[10]);
-                    mostraProdutosParaAPesquisa();
-                    if (Entrada.scanDeParada())
-                        break;
+                    menuDeProduto();
                     break;
+
                 case 3:
-                    LimpaConsole.main(new String[10]);
-                    adicionaProdutoNaLista();
-                    break;
-                case 4:
-                    LimpaConsole.main(new String[10]);
-                    editarProduto();
-                    if (Entrada.scanDeParada())
-                        break;
-                    break;
-
-                case 5:
-                    LimpaConsole.main(new String[10]);
-                    excluirProduto();
-                    if (Entrada.scanDeParada())
-                        break;
-                    break;
-
-                case 6:
                     LimpaConsole.main(new String[10]);
                     atualizaEstoque();
                     if (Entrada.scanDeParada())
                         break;
                     break;
 
-                case 7:
+                case 4:
+                    LimpaConsole.main(new String[10]);
+                    mostraProdutosComEstoqueBaixo();
+                    if (Entrada.scanDeParada())
+                        break;
+                    break;
+
+                case 5:
                     LimpaConsole.main(new String[10]);
                     imprimeRelatorioEmTxt();
                     break;
 
-                case 8:
+                case 6:
                     LimpaConsole.main(new String[10]);
                     start = false;
                     break;
@@ -104,12 +90,6 @@ public class Ui {
             System.out.println(retornaLinha(44));
             System.out.println(aviso);
         }
-        // if (lista.tamanhoDalistaDeProdutos() > 0) {
-        //     System.out.println("=============================================\nProduto com estoque mais baixo: "
-        //             + lista.produtoComEstoqueMaisBaixo().getNome() + "\nCódigo: "
-        //             + lista.produtoComEstoqueMaisBaixo().getCodigo() + "\nEstoque: "
-        //             + lista.produtoComEstoqueMaisBaixo().getEstoque());
-        // }
     }
 
     private void imprimeRelatorioEmTxt() {
@@ -136,18 +116,53 @@ public class Ui {
         }
     }
 
-    private void atualizaEstoque() {
-        if(!verificaListaVazia(lista.getListaDeProdutos())) {
-            String buscaPeloProduto = Entrada.inString("Digite o produto que gostaria de atualizar o estoque: ");
-            if (lista.verificaExistenciaDoProduto(buscaPeloProduto)) {
-                int estoque = Entrada.inInt("Digite a quantia de produtos que irão sair do estoque.");
-                lista.retornaProduto(lista.pesquisaProduto(buscaPeloProduto)).liberaVenda(estoque);
-            }
+    
+    public void menuDeProduto() throws IOException, InterruptedException {
+        boolean start = true;
+        do {
+            LimpaConsole.main(new String[10]);
+            int opcao = Entrada.inInt("\n=========| Digite a opção desejada |=========\n\n" 
+            + "[1] Pesquisar produto\n" 
+                    + "[2] Adicionar produto\n" 
+                    + "[3] Editar produto\n"
+                    + "[4] Apagar produto\n" 
+                    + "[5] Voltar\n"
+                    + "\n=============================================");
+                    switch (opcao) {
+                case 1:
+                LimpaConsole.main(new String[10]);
+                    mostraProdutosParaAPesquisa();
+                    if (Entrada.scanDeParada())
+                        break;
+                    break;
 
-            else {
-                System.out.println("Produto não encontrado.");
+                case 2:
+                LimpaConsole.main(new String[10]);
+                    adicionaProdutoNaLista();
+                    break;
+                case 3:
+                LimpaConsole.main(new String[10]);
+                    editarProduto();
+                    if (Entrada.scanDeParada())
+                        break;
+                    break;
+                    
+                case 4:
+                    LimpaConsole.main(new String[10]);
+                    excluirProduto();
+                    if (Entrada.scanDeParada())
+                        break;
+                    break;
+
+                case 5:
+                    LimpaConsole.main(new String[10]);
+                    start = false;
+                    break;
+
+                default:
+                    break;
             }
-        }
+        } while (start);
     }
 
     private void adicionaProdutoNaLista() {
@@ -164,33 +179,36 @@ public class Ui {
         else {
             int opcao = Entrada.inInt(
                     "\n=========| Digite a opção de cadastro para " + nome + " |=========\n\n"
-                    + "[1] Estoque, Estoque mínimo\n" + "[2] Estoque\n" + "[3] Finalizar cadastro\n"
-                    + "[4] Cancelar cadastro\n" + "\n================================================");
+                    + "[1] Estoque, Estoque mínimo\n" 
+                    + "[2] Estoque\n" 
+                    + "[3] Finalizar cadastro\n"
+                    + "[4] Cancelar cadastro\n" + 
+                    "\n================================================");
             switch (opcao) {
                 case 1:
-                    quantidade = Entrada.inInt("Digite a quantia em estoque: ", "");
-                    estoqueMinimo = Entrada.inInt("Digite o estoque mínimo para o produto: ", "");
-                    lista.adicionaProduto(new Produto(nome, codigo, quantidade, estoqueMinimo));
+                quantidade = Entrada.inInt("Digite a quantia em estoque: ", "");
+                estoqueMinimo = Entrada.inInt("Digite o estoque mínimo para o produto: ", "");
+                lista.adicionaProduto(new Produto(nome, codigo, quantidade, estoqueMinimo));
                     break;
 
-                case 2:
+                    case 2:
                     quantidade = Entrada.inInt("Digite a quantia em estoque: ", "");
                     lista.adicionaProduto(new Produto(nome, codigo, quantidade));
                     break;
 
                 case 3:
-                    lista.adicionaProduto(new Produto(nome, codigo));
+                lista.adicionaProduto(new Produto(nome, codigo));
                     break;
 
-                case 4:
+                    case 4:
                     System.out.println("\n\n\tCadastro negado pelo usuário!\n\n");
                     if (Entrada.scanDeParada())
                         break;
-                    break;
+                        break;
 
                 default:
                     break;
-            }
+                }
         }
     }
 
@@ -199,7 +217,7 @@ public class Ui {
             menuDeEdicao();
         }
     }
-
+    
     private void menuDeEdicao() {
         String pesquisa = Entrada.inString("Digite o nome ou código do produto que deseja editar: ");
         int indice = lista.pesquisaProduto(pesquisa);
@@ -207,7 +225,7 @@ public class Ui {
         if (numeroDeResultados > 1) {
             mostraProdutosParaAPesquisa(pesquisa);
             System.out.println("\n\n\tExiste mais de um produto com '" + pesquisa + "'\n"
-                    + "\tPor favor, busque pelo código do produto!");
+            + "\tPor favor, busque pelo código do produto!");
             menuDeEdicao();
         }
         Produto produtoAntigo;
@@ -223,7 +241,7 @@ public class Ui {
             boolean mostrarTela = true;
             do {
                 int opcao = Entrada.inInt(
-                        "\n==========| Digite a opção de edicão |==========\n\n" 
+                    "\n==========| Digite a opção de edicão |==========\n\n" 
                         + "[1] Nome\n"
                         + "[2] Código\n" 
                         + "[3] Estoque\n" 
@@ -255,14 +273,14 @@ public class Ui {
                 }
 
             } while (mostrarTela);
-
+            
             if (confereSucessoNaEdicao(produtoAntigo, lista.getListaDeProdutos().get(indice))) {
                 System.out.println("\n\n\tEdição efetuada com sucesso!\n");
                 Entrada.scanDeParada();
             }
         }
     }
-
+    
     /**
      * Metodo que recebe uma lista, verifica se ela esta vazia atraves da funcao
      * isEmpty() da API Java e retorna o valor booleano da conferencia. Ainda
@@ -277,6 +295,80 @@ public class Ui {
             return true;
         }
         return false;
+    }
+    
+    private void atualizaEstoque() {
+        if(!verificaListaVazia(lista.getListaDeProdutos())) {
+            String pesquisa = Entrada.inString("Digite o produto que gostaria de atualizar o estoque: ");
+            int indice = lista.pesquisaProduto(pesquisa);
+            pesquisaNaLista(pesquisa);
+            if (numeroDeResultados > 1) {
+                mostraProdutosParaAPesquisa(pesquisa);
+                System.out.println("\n\n\tExiste mais de um produto com '" + pesquisa + "'\n"
+                + "\tPor favor, busque pelo código do produto!");
+                atualizaEstoque();
+            }
+
+            if (indice < 0) {
+                String mensagem = "Não foram encontrados resultados para '" + 
+                        pesquisa + "'";
+                System.out.println("\n\t" + retornaLinha(mensagem.length() + 16) + "\n");
+                System.out.println("\n\t\t" + mensagem + "\n");
+                System.out.println("\n\t" + retornaLinha(mensagem.length() + 16) + "\n");
+            } else {
+                Produto p;
+                p = menuAtualizacaoDeEstoque(lista.retornaProduto(indice));
+                lista.getListaDeProdutos().set(indice, p);
+            }
+        }
+    }
+    
+    
+    public Produto menuAtualizacaoDeEstoque(Produto p) {
+        boolean mostrarTela = true;
+        int quantidade = 0;
+        do {
+            String mensagem = "==========| Digite a opção de atualização para "+p.getNome()+" |==========";
+            int opcao = Entrada.inInt(
+                "\n"+mensagem+"\n\n" 
+                    + "[1] Dar ENTRADA no estoque\n"
+                    + "[2] Dar SAIDA no estoque\n" 
+                    + "[3] Voltar\n"
+                    + "\n"+retornaLinha(mensagem.length()));
+            switch (opcao) {
+                case 1:
+                    quantidade = Entrada.inInt("Digite a quantidade de produtos que irão entrar no estoque: ", "");
+                    daEntradaNoEstoque(quantidade, p);
+                    break;
+                case 2:
+                    quantidade = Entrada.inInt("Digite a quantidade de produtos que irão sair do estoque: ", "");
+                    daSaidaNoEstoque(quantidade, p);
+                    break;
+                case 3:
+                    mostrarTela = false;
+                    break;
+                default:
+                    break;
+            }
+            
+        } while (mostrarTela);
+        return p;
+    }
+    
+    public boolean liberaSaidaDoEstoque(int quantidade, Produto p) {
+        return ((p.getEstoque() - quantidade) > 0);
+    }
+
+    public Produto daEntradaNoEstoque(int quantidade, Produto p) {
+            p.setEstoque(p.getEstoque() + quantidade);
+            return p;
+    }
+
+    public Produto daSaidaNoEstoque(int quantidade, Produto p) {
+        if(liberaSaidaDoEstoque(quantidade, p)) {
+            p.setEstoque(p.getEstoque() - quantidade);
+        }
+        return p;
     }
 
     /**
@@ -387,15 +479,19 @@ public class Ui {
     }
 
     private void mostraProdutosComEstoqueBaixo() {
-        int posicao = 1;
-        String mensagem = "=================| Produtos em estoque baixo: |=================";
-        System.out.println("\n\n\t" + mensagem + "\n\n");
-        for (Produto p : lista.getListaDeEstoqueBaixo()) {
-            System.out.println(posicao + " ------\n" + p + "\n");
-            posicao++;
+        if (lista.getListaDeProdutos().isEmpty())
+            System.out.println("\n\n\tNão há produtos com estoque baixo!\n");
+        else {
+            int posicao = 1;
+            String mensagem = "=================| Produtos em estoque baixo: |=================";
+            System.out.println("\n\n\t" + mensagem + "\n\n");
+            for (Produto p : lista.getListaDeEstoqueBaixo()) {
+                System.out.println(posicao + " ------\n" + p + "\n");
+                posicao++;
+            }
+            System.out.println("\t\t\t\tTotal de produtos em estoque: " + lista.getListaDeEstoqueBaixo().size());
+            System.out.println("\n\t" + retornaLinha(mensagem.length()) + "\n");
         }
-        System.out.println("\t\t\t\tTotal de produtos em estoque: " + lista.getListaDeEstoqueBaixo().size());
-        System.out.println("\n\t" + retornaLinha(mensagem.length()) + "\n");
     }
 
     public String retornaLinha(int tamanho) {

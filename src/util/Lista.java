@@ -92,7 +92,7 @@ public class Lista {
     public boolean verificaExistenciaDoProdutoDuasPalavras(String nome, String codigo) {
         if (!listaDeProdutos.isEmpty()) {
             for (int i = 0; i < listaDeProdutos.size(); i++) {
-                if (listaDeProdutos.get(i).getCodigo().equals(codigo) && listaDeProdutos.get(i).getNome().equals(nome))
+                if (listaDeProdutos.get(i).getCodigo().equals(codigo) || listaDeProdutos.get(i).getNome().equals(nome))
                     return true;
             }
         }
