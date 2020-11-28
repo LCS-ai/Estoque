@@ -5,9 +5,11 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Collections;
 
 import produto.*;
 import util.*;
+import comparadores.*;
 
 public class Ui {
     private Lista lista;
@@ -186,25 +188,25 @@ public class Ui {
                     "\n================================================");
             switch (opcao) {
                 case 1:
-                quantidade = Entrada.inInt("Digite a quantia em estoque: ", "");
-                estoqueMinimo = Entrada.inInt("Digite o estoque mínimo para o produto: ", "");
-                lista.adicionaProduto(new Produto(nome, codigo, quantidade, estoqueMinimo));
+                    quantidade = Entrada.inInt("Digite a quantia em estoque: ", "");
+                    estoqueMinimo = Entrada.inInt("Digite o estoque mínimo para o produto: ", "");
+                    lista.adicionaProduto(new Produto(nome, codigo, quantidade, estoqueMinimo));
                     break;
 
-                    case 2:
+                case 2:
                     quantidade = Entrada.inInt("Digite a quantia em estoque: ", "");
                     lista.adicionaProduto(new Produto(nome, codigo, quantidade));
-                    break;
+                break;
 
                 case 3:
-                lista.adicionaProduto(new Produto(nome, codigo));
-                    break;
+                    lista.adicionaProduto(new Produto(nome, codigo));
+                break;
 
-                    case 4:
+                case 4:
                     System.out.println("\n\n\tCadastro negado pelo usuário!\n\n");
                     if (Entrada.scanDeParada())
                         break;
-                        break;
+                    break;
 
                 default:
                     break;
@@ -483,6 +485,7 @@ public class Ui {
             System.out.println("\n\n\tNão há produtos com estoque baixo!\n");
         else {
             int posicao = 1;
+            Collections.sort(new ComparadorPorEstoque());
             String mensagem = "=================| Produtos em estoque baixo: |=================";
             System.out.println("\n\n\t" + mensagem + "\n\n");
             for (Produto p : lista.getListaDeEstoqueBaixo()) {
