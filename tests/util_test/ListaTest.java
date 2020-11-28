@@ -42,4 +42,15 @@ public class ListaTest {
         assertFalse(lista.verificaExistenciaMesmoCodigo("23"));
     }
     
+    @Test
+    public void verificaExistenciaMesmoNomeECodigoTest() {
+        Produto p = new Produto("Bola de Basquete - Nike", "23laid9");
+        String nome = p.getNome();
+        String codigo = p.getCodigo();
+        lista.adicionaProduto(p);
+        assertTrue(lista.verificaExistenciaDoNomeECodigo(nome, codigo));
+        assertFalse(lista.verificaExistenciaDoNomeECodigo("Tenis", "23"));
+        assertTrue(lista.verificaExistenciaMesmoCodigo(codigo));
+        assertFalse(lista.verificaExistenciaMesmoCodigo("23"));
+    }
 }

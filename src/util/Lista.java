@@ -76,7 +76,7 @@ public class Lista {
         return false;
     }
     
-    public boolean verificaExistenciaDoProdutoDuasPalavras(String nome, String codigo) {
+    public boolean verificaExistenciaDoNomeECodigo(String nome, String codigo) {
         if (!listaDeProdutos.isEmpty()) {
             for (int i = 0; i < listaDeProdutos.size(); i++) {
                 if (listaDeProdutos.get(i).getCodigo().equals(codigo) ||

@@ -176,7 +176,7 @@ public class Ui {
         nome = Entrada.inString("Digite o nome do produto: ", "");
         codigo = Entrada.inString("Digite o código do produto: ", "");
 
-        if (lista.verificaExistenciaDoProdutoDuasPalavras(nome, codigo))
+        if (lista.verificaExistenciaDoNomeECodigo(nome, codigo))
             System.out.println("\n\n\tProduto " + nome + " com o código " + codigo + " já existe!");
         else {
             int opcao = Entrada.inInt(
