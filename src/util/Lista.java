@@ -17,6 +17,12 @@ public class Lista {
         listaDeEstoqueBaixo = new ArrayList<>();
     }
 
+    public Lista(ArrayList <Produto> produtosDoBanco) {
+        this.listaDeProdutos = produtosDoBanco;
+        listaDeProdutosVendidos = new ArrayList<>();
+        listaDeEstoqueBaixo = new ArrayList<>();
+    }
+
     public List<Produto> getListaDeProdutos() {
         return listaDeProdutos;
     }

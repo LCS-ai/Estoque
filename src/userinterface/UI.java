@@ -17,9 +17,16 @@ public class Ui {
 
     public Ui() {
         lista = new Lista();
-        this.listaResultadoDaPesquisa = new ArrayList<>();
+        listaResultadoDaPesquisa = new ArrayList<>();
     }
 
+    public Lista getLista() {
+        return lista;
+    }
+
+    public void setLista(Lista lista) {
+        this.lista = lista;
+    }
 
     // TODO exportar as opcões relacionadas ao produto pra um menuProduto
     // TODO adicionar ao menu o metodo de imprimir produtos com estoque baixo.
