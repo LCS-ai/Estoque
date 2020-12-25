@@ -2,10 +2,10 @@ package produto;
 
 public class Produto{
 
-    private String nome;
-    private String codigo;
-    private int estoque;
-    private int estoqueMinimo;
+    protected String nome;
+    protected String codigo;
+    protected int estoque;
+    protected int estoqueMinimo;
 
     public Produto(String nome, String codigo) {
         this.nome = nome;
@@ -62,8 +62,10 @@ public class Produto{
 
     @Override
     public String toString() {
-        return "\tNome: " + this.getNome() + "\n\tCódigo: " + this.getCodigo() + "\n\tEstoque: " + this.getEstoque()
-                + "\n\tEstoque minimo: " + this.getEstoqueMinimo();
+        return  "\tNome: " + this.getNome() + 
+                "\n\tCódigo: " + this.getCodigo() + 
+                "\n\tEstoque: " + this.getEstoque() + 
+                "\n\tEstoque minimo: " + this.getEstoqueMinimo();
     }
 
 }
