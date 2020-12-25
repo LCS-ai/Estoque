@@ -29,17 +29,17 @@ public class Ui {
     }
 
     // TODO exportar as opcões relacionadas ao produto pra um menuProduto
-    // TODO adicionar ao menu o metodo de imprimir produtos com estoque baixo.
     public void menu() throws IOException, InterruptedException {
         boolean start = true;
         do {
+            lista.getListaDeEstoqueBaixo().clear();
             lista.atualizaProdutosComEstoqueBaixo();
             LimpaConsole.main(new String[10]);
             imprimeAvisoEstoqueBaixo();
             int opcao = Entrada.inInt("\n=========| Digite a opção desejada |=========\n\n" 
                     + "[1] Visualizar estoque\n" 
                     + "[2] Produto\n"
-                    + "[3] Atualiza estoque\n" 
+                    + "[3] Atualizar estoque\n" 
                     + "[4] Visualizar Produtos com Estoque Baixo\n"
                     + "[5] Imprimir Relatório(.txt)\n" 
                     + "[6] Sair\n"
@@ -233,7 +233,7 @@ public class Ui {
         if (numeroDeResultados > 1) {
             mostraProdutosParaAPesquisa(pesquisa);
             System.out.println("\n\n\tExiste mais de um produto com '" + pesquisa + "'\n"
-            + "\tPor favor, busque pelo código do produto!");
+            + "\tPor favor, busque pelo código do produto!\n");
             menuDeEdicao();
         }
         Produto produtoAntigo;

@@ -6,6 +6,10 @@ public class Entrada {
 
     private static Scanner scan;
 
+    private Entrada() {
+        
+    }
+
     public static boolean scanDeParada() {
         String entrada = inString();
         return (entrada.equals("") || entrada.isBlank());
