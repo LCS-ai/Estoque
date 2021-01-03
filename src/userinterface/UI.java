@@ -28,7 +28,7 @@ public class Ui {
         this.lista = lista;
     }
 
-    // TODO exportar as opcões relacionadas ao produto pra um menuProduto
+    
     public void menu() throws IOException, InterruptedException {
         boolean start = true;
         do {
@@ -36,7 +36,8 @@ public class Ui {
             lista.atualizaProdutosComEstoqueBaixo();
             LimpaConsole.main(new String[10]);
             imprimeAvisoEstoqueBaixo();
-            int opcao = Entrada.inInt("\n=========| Digite a opção desejada |=========\n\n" 
+            int opcao = Entrada.inInt(
+                    "\n=========| Digite a opção desejada |=========\n\n" 
                     + "[1] Visualizar estoque\n" 
                     + "[2] Produto\n"
                     + "[3] Atualizar estoque\n" 
@@ -53,6 +54,7 @@ public class Ui {
                     break;
 
                 case 2:
+                    LimpaConsole.main(new String[10]);
                     menuDeProduto();
                     break;
 
@@ -129,27 +131,29 @@ public class Ui {
         boolean start = true;
         do {
             LimpaConsole.main(new String[10]);
-            int opcao = Entrada.inInt("\n=========| Digite a opção desejada |=========\n\n" 
-            + "[1] Pesquisar produto\n" 
-                    + "[2] Adicionar produto\n" 
+            int opcao = Entrada.inInt(
+                    "\n=========| Digite a opção desejada |=========\n\n" 
+                    + "[1] Pesquisar produto\n"
+                    + "[2] Adicionar produto\n"
                     + "[3] Editar produto\n"
                     + "[4] Apagar produto\n" 
                     + "[5] Voltar\n"
                     + "\n=============================================");
-                    switch (opcao) {
+            switch (opcao) {
                 case 1:
-                LimpaConsole.main(new String[10]);
+                    LimpaConsole.main(new String[10]);
                     mostraProdutosParaAPesquisa();
                     if (Entrada.scanDeParada())
                         break;
                     break;
 
                 case 2:
-                LimpaConsole.main(new String[10]);
+                    LimpaConsole.main(new String[10]);
                     adicionaProdutoNaLista();
                     break;
+
                 case 3:
-                LimpaConsole.main(new String[10]);
+                    LimpaConsole.main(new String[10]);
                     editarProduto();
                     if (Entrada.scanDeParada())
                         break;
@@ -173,10 +177,16 @@ public class Ui {
         } while (start);
     }
 
-    private void adicionaProdutoNaLista() {
+    /**
+     * Metodo que recebe os dados de um produto e o cadastra na lista de produtos.
+     * 
+     * @throws InterruptedException
+     * @throws IOException
+     */
+    private void adicionaProdutoNaLista() throws IOException, InterruptedException {
         String nome;
         String codigo;
-        int quantidade;
+        int estoque;
         int estoqueMinimo;
 
         nome = Entrada.inString("Digite o nome do produto: ", "");
@@ -194,19 +204,18 @@ public class Ui {
                     "\n================================================");
             switch (opcao) {
                 case 1:
-                    quantidade = Entrada.inInt("Digite a quantia em estoque: ", "");
-                    estoqueMinimo = Entrada.inInt("Digite o estoque mínimo para o produto: ", "");
-                    lista.adicionaProduto(new Produto(nome, codigo, quantidade, estoqueMinimo));
+                    LimpaConsole.main(new String[10]);
+                    cadastraEstoque();
                     break;
 
                 case 2:
-                    quantidade = Entrada.inInt("Digite a quantia em estoque: ", "");
-                    lista.adicionaProduto(new Produto(nome, codigo, quantidade));
-                break;
+                    estoque = Entrada.inInt("Digite a quantia em estoque: ", "");
+                    lista.adicionaProduto(new Produto(nome, codigo, estoque));
+                    break;
 
                 case 3:
                     lista.adicionaProduto(new Produto(nome, codigo));
-                break;
+                    break;
 
                 case 4:
                     System.out.println("\n\n\tCadastro negado pelo usuário!\n\n");
@@ -216,8 +225,13 @@ public class Ui {
 
                 default:
                     break;
-                }
+            }
         }
+    }
+
+    // TODO metodo para cadastrar o estoque da numeracao desejada 
+    private Object cadastraEstoque() {
+        return new Object();
     }
 
     private void editarProduto() {
@@ -331,7 +345,13 @@ public class Ui {
         }
     }
     
-    
+    /**
+     * Metodo que recebe um produto e incrementa ou decrementa do estoque
+     * conforme a opcao passada pelo user e a quantidade. 
+     * Atualiza o estoque do produto e depois retorna o mesmo.
+     * @param p : {@link Produto}
+     * @return {@link Produto}
+     */
     public Produto menuAtualizacaoDeEstoque(Produto p) {
         boolean mostrarTela = true;
         int quantidade = 0;
@@ -363,6 +383,13 @@ public class Ui {
         return p;
     }
     
+    /**
+     * Metodo que recebe um {@link Produto} e um valor a ser decrementado do estoque do mesmo.
+     * Decrementa esse valor e retorna um booleano caso o novo estoque seja maior do que 0.
+     * @param quantidade : int
+     * @param p : {@link Produto}
+     * @return true/false : boolean
+     */
     public boolean liberaSaidaDoEstoque(int quantidade, Produto p) {
         return ((p.getEstoque() - quantidade) > 0);
     }
@@ -384,9 +411,9 @@ public class Ui {
      * apos a edicao. Ele confere cada atributo do produtos buscando por alteracoes
      * e retorna o valor booleano das comparacoes.
      * 
-     * @param produtoAntigo : Produto
-     * @param p             : Produto
-     * @return : boolean
+     * @param produtoAntigo : {@link Produto}
+     * @param p             : {@link Produto}
+     * @return true/false : boolean
      */
     public boolean confereSucessoNaEdicao(Produto produtoAntigo, Produto p) {
         return !produtoAntigo.getNome().equals(p.getNome()) || 
@@ -395,6 +422,11 @@ public class Ui {
                 produtoAntigo.getEstoqueMinimo() != p.getEstoqueMinimo();
     }
 
+    /**
+     * Metodo que (após veficar se a lista está vazia) recebe da entrada
+     * um codigo de um produto e procura-o na lista de produtos. 
+     * Após isso remove o mesmo da lista de produtos.
+     */
     private void excluirProduto() {
         Produto p = null;
         if (lista.getListaDeProdutos().isEmpty())
