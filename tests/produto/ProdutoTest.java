@@ -1,12 +1,10 @@
-package tests.produto_test;
+package produto;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertTrue;
 
 import org.junit.*;
-
-import produto.Produto;
 
 public class ProdutoTest {
     Produto p1, p2, p3;

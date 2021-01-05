@@ -319,7 +319,7 @@ public class Ui {
         return false;
     }
     
-    private void atualizaEstoque() {
+    private void atualizaEstoque() throws IOException, InterruptedException {
         if(!verificaListaVazia(lista.getListaDeProdutos())) {
             String pesquisa = Entrada.inString("Digite o produto que gostaria de atualizar o estoque: ");
             int indice = lista.pesquisaProduto(pesquisa);
@@ -346,16 +346,21 @@ public class Ui {
     }
     
     /**
-     * Metodo que recebe um produto e incrementa ou decrementa do estoque
-     * conforme a opcao passada pelo user e a quantidade. 
-     * Atualiza o estoque do produto e depois retorna o mesmo.
+     * Metodo que recebe um produto e incrementa ou decrementa do estoque conforme a
+     * opcao passada pelo user e a quantidade. Atualiza o estoque do produto e
+     * depois retorna o mesmo.
+     * 
      * @param p : {@link Produto}
      * @return {@link Produto}
+     * @throws InterruptedException
+     * @throws IOException
      */
-    public Produto menuAtualizacaoDeEstoque(Produto p) {
+    public Produto menuAtualizacaoDeEstoque(Produto p) throws IOException, InterruptedException {
         boolean mostrarTela = true;
         int quantidade = 0;
         do {
+            LimpaConsole.main(new String[10]);
+            System.out.println(p);
             String mensagem = "==========| Digite a opção de atualização para "+p.getNome()+" |==========";
             int opcao = Entrada.inInt(
                 "\n"+mensagem+"\n\n" 
@@ -429,9 +434,7 @@ public class Ui {
      */
     private void excluirProduto() {
         Produto p = null;
-        if (lista.getListaDeProdutos().isEmpty())
-            System.out.println("\n\n\tAinda não há produtos cadastrados!\n");
-        else {
+        if(!verificaListaVazia(lista.getListaDeProdutos())) {
             String pesquisa = Entrada.inString("Digite o nome ou código do produto que deseja excluir: ");
             mostraProdutosParaAPesquisa(pesquisa);
             if (numeroDeResultados != 1) {
@@ -463,9 +466,7 @@ public class Ui {
     }
 
     private void mostraProdutosParaAPesquisa() {
-        if (lista.getListaDeProdutos().isEmpty())
-            System.out.println("\n\n\tAinda não há produtos cadastrados!\n");
-        else {
+        if(!verificaListaVazia(lista.getListaDeProdutos())) {
             String pesquisa = Entrada.inString("Digite a chave para pesquisar na lista: ", "");
             pesquisaNaLista(pesquisa);
             String mensagem = (numeroDeResultados < 1) ? 
@@ -484,9 +485,7 @@ public class Ui {
     }
 
     private void mostraProdutosParaAPesquisa(String pesquisa) {
-        if (lista.getListaDeProdutos().isEmpty())
-            System.out.println("\n\n\tAinda não há produtos cadastrados!\n");
-        else {
+        if(!verificaListaVazia(lista.getListaDeProdutos())) {
             pesquisaNaLista(pesquisa);
             String mensagem = (numeroDeResultados < 1) ? "Não foram encontrados resultados para '" + pesquisa + "'"
                     : "=========| Exibindo " + numeroDeResultados + " "
@@ -504,9 +503,7 @@ public class Ui {
 
     private void mostraEstoque() {
         int posicao = 1;
-        if (lista.getListaDeProdutos().isEmpty())
-            System.out.println("\n\n\tAinda não há produtos cadastrados!\n");
-        else {
+        if(!verificaListaVazia(lista.getListaDeProdutos())) {
             String mensagem = "=================| Estoque de produtos: |=================";
             System.out.println("\n\n\t" + mensagem + "\n\n");
             for (Produto p : lista.getListaDeProdutos()) {
@@ -519,9 +516,7 @@ public class Ui {
     }
 
     private void mostraProdutosComEstoqueBaixo() {
-        if (lista.getListaDeProdutos().isEmpty())
-            System.out.println("\n\n\tNão há produtos com estoque baixo!\n");
-        else {
+        if(!verificaListaVazia(lista.getListaDeProdutos())) {
             int posicao = 1;
             String mensagem = "=================| Produtos em estoque baixo: |=================";
             System.out.println("\n\n\t" + mensagem + "\n\n");

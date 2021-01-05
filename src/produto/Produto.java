@@ -7,6 +7,11 @@ public class Produto{
     protected int estoque;
     protected int estoqueMinimo;
 
+    /**
+     * Construtor da classe {@link Produto} que recebe o nome e o codigo do produto.
+     * @param nome
+     * @param codigo
+     */
     public Produto(String nome, String codigo) {
         this.nome = nome;
         this.codigo = codigo;
@@ -14,6 +19,12 @@ public class Produto{
         this.estoqueMinimo = 0;
     }
 
+    /**
+     * Construtor da classe {@link Produto} que recebe o nome, codigo e estoque do produto.
+     * @param nome
+     * @param codigo
+     * @param estoque
+     */
     public Produto(String nome, String codigo, int estoque) {
         this.nome = nome;
         this.codigo = codigo;
@@ -21,6 +32,13 @@ public class Produto{
         this.estoqueMinimo = 0;
     }
 
+    /**
+     * Construtor da classe {@link Produto} que recebe o nome, codigo, estoque e estoque minimo do produto.
+     * @param nome
+     * @param codigo
+     * @param estoque
+     * @param estoqueMinimo
+     */
     public Produto(String nome, String codigo, int estoque, int estoqueMinimo) {
         this.nome = nome;
         this.codigo = codigo;

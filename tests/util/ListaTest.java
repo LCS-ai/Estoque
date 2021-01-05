@@ -1,4 +1,4 @@
-package tests.util_test;
+package util;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;

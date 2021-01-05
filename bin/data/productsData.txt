@@ -1,5 +1,0 @@
-Slim Tradicional,1234,23,12
-Tenis Nike AirMax,NK1232,30,30
-Slide X,XT103,44,40
-Flat,CF1905,32,40
-Slim,cf001,30,20
