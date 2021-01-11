@@ -1,8 +1,6 @@
 package produto;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 import org.junit.*;
 
@@ -10,7 +8,7 @@ public class ProdutoTest {
     Produto p1, p2, p3;
     
     @Before
-    public void inicializaConstrutores() {
+    private void inicializaConstrutores() {
         p1 = new Produto("Nike Air-Jordan", "0001");
         p2 = new Produto("Nike SB", "0002", 54);
         p3 = new Produto("Nike Running", "0003", 67, 50);

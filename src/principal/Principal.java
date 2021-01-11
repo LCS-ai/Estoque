@@ -5,8 +5,7 @@ import java.util.ArrayList;
 
 import produto.Produto;
 import userinterface.Ui;
-import util.Lista;
-import util.ManipulaArquivo;
+import util.*;
 
 public class Principal {
     public static void main(String[] args) {

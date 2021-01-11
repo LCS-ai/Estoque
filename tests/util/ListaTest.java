@@ -1,14 +1,10 @@
 package util;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.*;
 
 import produto.Produto;
-import util.Lista;
 
 public class ListaTest {
     Lista lista;
@@ -22,7 +18,7 @@ public class ListaTest {
     public void adicionaProdutoTest() {
         Produto p = new Produto("tenis", "2p5");
         lista.adicionaProduto(p);
-        assertTrue(lista.getListaDeProdutos().contains(p));
+        Assert.assertTrue(lista.getListaDeProdutos().contains(p));
     }
 
     @Test

@@ -12,49 +12,35 @@ public class ProdutoComVariacoes extends Produto {
      * Construtor da classe {@link ProdutoComVariacoes}.
      * Recebe o nome e o codigo do produto e preenche na superclasse.
      * Atributo cor recebe valor 'indefinido'.
-     * @param nome
-     * @param codigo
+     * @param nome : String
+     * @param codigo : String
      */
     public ProdutoComVariacoes(String nome, String codigo) {
         super(nome, codigo);
         this.cor = "indefinido";
     }
-
-    /**
-     * Construtor da classe {@link ProdutoComVariacoes}.
-     * Recebe o nome, codigo e o estoque do produto e preenche na superclasse.
-     * Atributo cor recebe valor 'indefinido'.
-     * @param nome
-     * @param codigo
-     * @param estoque
-     */
-    public ProdutoComVariacoes(String nome, String codigo, int estoque) {
-        super(nome, codigo, estoque);
-        this.cor = "indefinido";
-    }
     
     /**
      * Construtor da classe {@link ProdutoComVariacoes}.
-     * Recebe o nome, codigo, estoque e o estoque minimo do produto e preenche na superclasse.
+     * Recebe o nome, codigo e a cor do produto e preenche nos atributos de classe e superclasse.
      * Atributo cor recebe valor 'indefinido'.
-     * @param nome
-     * @param codigo
-     * @param estoque
-     * @param estoqueMinimo
-     */ 
-    public ProdutoComVariacoes(String nome, String codigo, int estoque, int estoqueMinimo) {
-        super(nome, codigo, estoque, estoqueMinimo);
-        this.cor = "indefinido";
+     * @param nome : String
+     * @param codigo : String
+     * @param cor : String
+     */
+    public ProdutoComVariacoes(String nome, String codigo, String cor) {
+        super(nome, codigo);
+        this.cor = cor;
     }
 
     /**
      * Construtor da classe {@link ProdutoComVariacoes}.
      * Recebe o nome, codigo, estoque, estoque minimo e a cor do produto e preenche na superclasse.
-     * @param nome
-     * @param codigo
-     * @param estoque
-     * @param estoqueMinimo
-     * @param cor
+     * @param nome : String
+     * @param codigo : String
+     * @param estoque : int
+     * @param estoqueMinimo : int
+     * @param cor : String
      */
     public ProdutoComVariacoes(String nome, String codigo, int estoque, int estoqueMinimo, String cor) {
         super(nome, codigo, estoque, estoqueMinimo);
@@ -80,6 +66,22 @@ public class ProdutoComVariacoes extends Produto {
         }
     }
 
+    public void novaVariacao(String numeracao) {
+        ProdutoNumerado variacao = new ProdutoNumerado(
+                this.getNome(),
+                this.getCodigo(),
+                numeracao
+            );
+        if(tamanho < variacoes.length) {
+            variacoes[tamanho] = variacao;
+            tamanho++;
+        }
+        else {
+            variacoes = Arrays.copyOf(variacoes, variacoes.length*2);
+            novaVariacao(variacao);
+        }
+    }
+
     private String retornaEspaco(int tamanho) {
         String s = "";
         for (int i = 0; i < tamanho; i++) {
@@ -88,16 +90,32 @@ public class ProdutoComVariacoes extends Produto {
         return s;
     }
 
+    /**
+     * @return the variacoes
+     */
+    public ProdutoNumerado[] getVariacoes() {
+        return variacoes;
+    }
+
     @Override
     public String toString() {
         int i = 0;
         boolean condicao = i < variacoes.length;
         String numeracoes = "", estoque = "", estoqueMinimo = "";
         for (ProdutoNumerado produtoNumerado : variacoes) {
-            numeracoes += (condicao) ? produtoNumerado.getNumeracao() +" | " : produtoNumerado.getNumeracao() + "\n";
-            estoque += (condicao) ? " " + produtoNumerado.getEstoque() + retornaEspaco(produtoNumerado.getNumeracao().length()-Integer.toString(produtoNumerado.getEstoque()).length()) +"| " : produtoNumerado.getEstoque() + "\n";
-            estoqueMinimo += (condicao) ? " " + produtoNumerado.getEstoqueMinimo() + retornaEspaco(produtoNumerado.getNumeracao().length()-Integer.toString(produtoNumerado.getEstoqueMinimo()).length()) +"| " : produtoNumerado.getEstoqueMinimo() + "\n";
-            i++;
+            if(produtoNumerado != null ) {
+                numeracoes += (condicao) ? produtoNumerado.getNumeracao() 
+                        +" | " : produtoNumerado.getNumeracao() + "\n";
+                estoque += (condicao) ? " " + produtoNumerado.getEstoque() 
+                        + retornaEspaco(produtoNumerado.getNumeracao().length()
+                        -Integer.toString(produtoNumerado.getEstoque()).length()) +
+                        "| " : produtoNumerado.getEstoque() + "\n";
+                estoqueMinimo += (condicao) ? " " + produtoNumerado.getEstoqueMinimo() + 
+                        retornaEspaco(produtoNumerado.getNumeracao().length()
+                        -Integer.toString(produtoNumerado.getEstoqueMinimo()).length()) +
+                        "| " : produtoNumerado.getEstoqueMinimo() + "\n";
+                i++;
+            }
         }
         return  "\tNome: " + this.getNome() + 
                 "\n\tCódigo: " + this.getCodigo() + "\tCor: " + this.getCor() 

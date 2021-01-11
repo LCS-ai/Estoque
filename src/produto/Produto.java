@@ -2,7 +2,7 @@ package produto;
 
 public class Produto{
 
-    protected String nome;
+    private String nome;
     protected String codigo;
     protected int estoque;
     protected int estoqueMinimo;
